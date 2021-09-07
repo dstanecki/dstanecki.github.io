@@ -31,6 +31,8 @@ plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-remote-theme
+  
+repository: dstanecki/dstanecki.github.io
 
 # Exclude from processing.
 # The following items will not be processed, by default.
@@ -52,4 +54,3 @@ plugins:
 #   - vendor/gems/
 #   - vendor/ruby/
 
-remote_theme: pages-themes/tactile@v0.2.0

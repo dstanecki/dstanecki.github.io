@@ -52,4 +52,4 @@ plugins:
 #   - vendor/gems/
 #   - vendor/ruby/
 
-
+remote_theme: pages-themes/tactile@v0.2.0

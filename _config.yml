@@ -27,7 +27,7 @@ url: "https://www.danielstanecki.com" # the base hostname & protocol for your si
 github_username:  dstanecki
 
 # Build settings
-theme: jekyll-theme-clean-blog
+theme: minima
 plugins:
   - jekyll-feed
   - jekyll-sitemap

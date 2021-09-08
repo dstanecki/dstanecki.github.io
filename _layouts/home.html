@@ -31,9 +31,7 @@ layout: default
             {{ post.title | escape }}
           </a>
         </h3>
-        {% if post.content.size > post.excerpt.size %}
-          <p><a href="{{ post.url }}">(more...)</a></p>
-        {%- endif -%}
+        {{ post.excerpt }}
       </li>
       {%- endfor -%}
     </ul>

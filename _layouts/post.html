@@ -27,7 +27,7 @@ layout: default
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    {{ content }}
+    {{ content | replace: '{{ site.excerpt_separator }}', '<a class="anchor" id="read-more"></a>' }}}
   </div>
 
   {%- if site.disqus.shortname -%}

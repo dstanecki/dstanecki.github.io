@@ -31,9 +31,13 @@ layout: default
             {{ post.title | escape }}
           </a>
         </h3>
-        {%- if site.show_excerpts -%}
-          {{ post.excerpt }}
-        {%- endif -%}
+       {{ post.excerpt }}
+<!-- Whether or not to display the "read more" button -->
+{% capture content_words %}{{ post.content | number_of_words }}{% endcapture %} 
+{% capture excerpt_words %}{{ post.excerpt | number_of_words }}{% endcapture %} 
+{% if excerpt_words != content_words %}
+<a href="{{ post.url }}#read-more" class="btn btn-info">Read More</a>
+{% endif %}
       </li>
       {%- endfor -%}
     </ul>

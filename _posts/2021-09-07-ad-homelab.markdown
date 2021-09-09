@@ -19,3 +19,5 @@ The main things I learned from this project were:
 4) How to install and configure DHCP on the server
 5) How to run PowerShell scripts on the server
 6) What organizational units are and how they are different from containers (Group Policy Objects can only be applied to organizational units. Examples of a GPO are password complexity enforcement and blocking certain software from being installed on machines) 
+
+I also found this resource to be helpful: https://www.serveracademy.com/tutorials/active-directory-tutorial-for-beginners/

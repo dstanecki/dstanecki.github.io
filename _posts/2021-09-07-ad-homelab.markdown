@@ -8,11 +8,11 @@ This homelab utilizes VirtualBox to connect a Windows 2019 Server Domain Control
 
 The foundation for this homelab is shown in this diagram: ![AD Diagram](/assets/AD-Diagram.png)
 
-Here's what Active Directory showed after I added myself to the admin group: ![AdminList](/assets/adminList.png)
+Here's what Active Directory shows after adding myself to the admin group: ![AdminList](/assets/adminList.png)
 
-Here's what the server showed after I ran the PowerShell script provided by [Josh Madakor](https://www.youtube.com/channel/UC7L59ITupqEbdE_Wq47woVg): ![PowerShellScript](/assets/PowerShellScript.png)
+Here's what the server shows after running the PowerShell script provided by [Josh Madakor](https://www.youtube.com/channel/UC7L59ITupqEbdE_Wq47woVg): ![PowerShellScript](/assets/PowerShellScript.png)
 
-Here's my client machine showing after it was connected to my domain: ![clientMachine](/assets/clientMachine.png)
+Here's my client machine appearing in Active Directory after it was connected to my domain: ![clientMachine](/assets/clientMachine.png)
 
 I ran into an issue where the client machine was successfully connected to the server domain, but it did not have internet access. I'm still trying to figure this out.
 

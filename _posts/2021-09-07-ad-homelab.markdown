@@ -17,11 +17,17 @@ Here's my client machine showing after it was connected to my domain: ![clientMa
 I ran into an issue where the client machine was successfully connected to the server domain, but it did not have internet access. I'm still trying to figure this out.
 
 The main things I learned from this project were:
+
 1) How to install Windows Server 2019
+
 2) How to set up Active Directory on the machine
+
 3) How to install Routing and Remote Access on a domain controller (supposed to allow internal clients to connect to the Internet using one public IP)
+
 4) How to install and configure DHCP on the server
+
 5) How to run PowerShell scripts on the server
+
 6) What organizational units are and how they are different from containers (Group Policy Objects can only be applied to organizational units. Examples of a GPO are password complexity enforcement and blocking certain software from being installed on machines) 
 
 I also found this resource to be quite helpful: https://www.serveracademy.com/tutorials/active-directory-tutorial-for-beginners/

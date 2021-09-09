@@ -31,3 +31,5 @@ The main things I learned from this project were:
 6) What organizational units are and how they are different from containers (Group Policy Objects can only be applied to organizational units. Examples of a GPO are password complexity enforcement and blocking certain software from being installed on machines) 
 
 I also found this resource to be quite helpful: https://www.serveracademy.com/tutorials/active-directory-tutorial-for-beginners/
+
+As well as this article on Group Policy: https://www.quest.com/community/blogs/b/microsoft-platform-management/posts/group-policy-what-is-it-and-how-do-gpos-work

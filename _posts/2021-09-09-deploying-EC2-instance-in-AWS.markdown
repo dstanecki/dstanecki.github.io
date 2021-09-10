@@ -22,7 +22,7 @@ I started this by creating an access key for my Admininstrator user as according
 
 My aim here is to get a static web page up and running. To do this I first had to create an Amazon RDS (Relational Database Service) for MySQL database instance. But before doing *that*, I had to create an Amazon VPC (Virtual Private Cloud) to be used with a database instance. 
 
-##### **Creating an Amazon VPC**
+#### **Creating an Amazon VPC**
 
 I followed [this](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Tutorials.WebServerDB.CreateVPC.html) tutorial, which has directions to create a VPC with both public and private subnets. The public subnet is for hosting the web server and the private subnet is for hosting the DB instance. The first step to achieve this is to allocate an Elastic IP address to associate with a NAT gateway. The next step in creating the VPC was creating the public and private subnet, as well as creating an additional private subnet. You must have either two private or two public subnets in order to create a DB subnet group. The DB instance needs the DB subnet group to be used in a VPC. 
 
@@ -30,11 +30,11 @@ Next I created a VPC security group for the public web server and added an SSH i
 
 Finally I created a DB subnet group, which allows you to assign DB instances to a particular VPC. This is done using Amazon's RDS console rather than the VPC console. 
 
-##### **Creating a DB Instance**
+#### **Creating a DB Instance**
 
 I used [this](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Tutorials.WebServerDB.CreateDBInstance.html) tutorial to create a DB instance. Via the RDS console, I created a MySQL Database. This was very straightforward.
 
-##### **Creating an EC2 Instance and Installing a Web Server** 
+#### **Creating an EC2 Instance and Installing a Web Server** 
 
 Following the guide [here](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Tutorials.WebServerDB.CreateWebServer.html), I launched an EC2 instance using the Amazon Linux 2 AMI (Amazon Machine Image) and the t2.micro instance type, both of which are conveniently free with AWS free tier. Next I configured the instance and security group, and downloaded an RSA public and private key pair.   
 

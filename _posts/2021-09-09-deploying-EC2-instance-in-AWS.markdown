@@ -45,6 +45,6 @@ Next I installed an Apache web server with PHP onto the Linux 2 AMI and configur
 ![TestPage](/assets/testPage.PNG)
 
 I also set up the sample page provided by AWS. Here's what that looks like:
-![SamplePage](/assets/SamplePage.PNG)
-![SamplePage2](/assets/SamplePage2.PNG)
+![SamplePage](/assets/samplePage.PNG)
+![SamplePage2](/assets/samplePage2.PNG)
 

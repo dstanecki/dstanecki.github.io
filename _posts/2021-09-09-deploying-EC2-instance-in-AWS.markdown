@@ -4,7 +4,7 @@ title:  "Deploying EC2 Instance In AWS"
 date:   2021-09-07 21:46:57 -0500
 categories: projects
 ---
-The goal of this project was to perform some basic Amazon Web Services tasks and deploy an EC2 Virtual Machine that can host a static web page. The process for this involved creating a Virtual Private Cloud, creating a MySQL database instance, and installing an Apache web server onto the VM.<!--break-->
+The goal of this project was to perform some basic Amazon Web Services tasks and deploy an EC2 Virtual Machine that can host a static web page. The process for this involved creating a Virtual Private Cloud, creating a MySQL database instance, and installing Apache web server onto the VM.<!--break-->
 
 ### **Creating my IAM Admin Account**
 

@@ -14,9 +14,9 @@ The first thing I did was add MFA via Google Authenticator. Next I followed [thi
 
 Next I enabled billing alerts and [created a billing alarm via the Cloudwatch console](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/monitor_estimated_charges_with_cloudwatch.html). Interestingly enough, I wasn't able to view the Total Estimated Charge billing metric until I changed my region from US East Ohio to US East N. Virginia. Apparently this is because billing metric data is stored in the N. Virginia region. I set my alarm to go off if I am billed for more than $3, just to choose an arbitrary number.
 
-## **Configuring the AWS CLI (Command Line Interface)**
+## **Configuring the AWS CLI**
 
-I started this by creating an access key for my Admininstrator user as according to the directions [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html). Next I downloaded and installed the AWS CLI, and used the aws configure command to configure a default profile. I was able to view my entered information at C:\Users\USERNAME\.aws\
+I started this by creating an access key for my Admininstrator user as according to the directions [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html). Next I downloaded and installed the AWS Command Line Interface, and used the aws configure command to configure a default profile. I was able to view my entered information at C:\Users\USERNAME\.aws\
 
 ## **Launching EC2 (Elastic Compute Cloud) instance**
 
@@ -39,12 +39,12 @@ I used [this](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Tutori
 Following the guide [here](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Tutorials.WebServerDB.CreateWebServer.html), I launched an EC2 instance using the Amazon Linux 2 AMI (Amazon Machine Image) and the t2.micro instance type, both of which are conveniently free with AWS free tier. Next I configured the instance and security group, and downloaded an RSA public and private key pair.   
 
 So after I got my EC2 instance up and running, I used PuTTY to connect to the instance from my local Windows 10 machine. I started with PuTTYgen to convert my downloaded key pair file from .pem to .ppk (the .pem filetype is not compatible with PuTTY). Once I did that I used the Linux instance username, public DNS name, and successfully-converted private key to connect to my EC2 instance successfully. To transfer files to the instance, I downloaded WinSCP on my local machine, and tested it by transferring a simple .txt file to the instance. Here's what that looked like: 
-![WinSCP](/assets/winSCP.png)
+![WinSCP](/assets/winSCP.PNG)
 
 Next I installed an Apache web server with PHP onto the Linux 2 AMI and configured file permissions in order to allow the user of the EC2 machine to add/delete/edit files in the Apache document root. You can see that the EC2 Apache web server is operating in the picture: 
-![TestPage](/assets/testPage.png)
+![TestPage](/assets/testPage.PNG)
 
 I also set up the sample page provided by AWS. Here's what that looks like:
-![SamplePage](/assets/SamplePage.png)
-![SamplePage2](/assets/SamplePage2.png)
+![SamplePage](/assets/SamplePage.PNG)
+![SamplePage2](/assets/SamplePage2.PNG)
 

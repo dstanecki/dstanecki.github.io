@@ -6,11 +6,11 @@ categories: projects
 ---
 The goal of this project was to perform some basic Amazon Web Services tasks and deploy an EC2 Virtual Machine that can host a static web page. The process for this involved creating a Virtual Private Cloud, creating a MySQL database instance, and installing Apache web server onto the VM.<!--break-->
 
-### **Creating my IAM Admin Account**
+### **Creating My IAM Admin Account**
 
 The first thing I did was add MFA via Google Authenticator. Next I followed [this](https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_create-admin-group.html) guide to create my first IAM admin user and user group. I of course named the user "Administrator" and the user group "Administrators". 
 
-### **Setting up billing alarms**
+### **Setting Up Billing Alarms**
 
 Next I enabled billing alerts and [created a billing alarm via the Cloudwatch console](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/monitor_estimated_charges_with_cloudwatch.html). Interestingly enough, I wasn't able to view the Total Estimated Charge billing metric until I changed my region from US East Ohio to US East N. Virginia. Apparently this is because billing metric data is stored in the N. Virginia region. I set my alarm to go off if I am billed for more than $3, just to choose an arbitrary number.
 
@@ -18,7 +18,7 @@ Next I enabled billing alerts and [created a billing alarm via the Cloudwatch co
 
 I started this by creating an access key for my Admininstrator user as according to the directions [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html). Next I downloaded and installed the AWS Command Line Interface, and used the aws configure command to configure a default profile. I was able to view my entered information at C:\Users\USERNAME\.aws\
 
-### **Launching EC2 (Elastic Compute Cloud) instance**
+### **Launching EC2 (Elastic Compute Cloud) Instance**
 
 My aim here is to get a static web page up and running. To do this I first had to create an Amazon RDS (Relational Database Service) for MySQL database instance. But before doing *that*, I had to create an Amazon VPC (Virtual Private Cloud) to be used with a database instance. 
 
@@ -30,11 +30,11 @@ Next I created a VPC security group for the public web server and added an SSH i
 
 Finally I created a DB subnet group, which allows you to assign DB instances to a particular VPC. This is done using Amazon's RDS console rather than the VPC console. 
 
-##### **Creating a DB instance**
+##### **Creating a DB Instance**
 
 I used [this](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Tutorials.WebServerDB.CreateDBInstance.html) tutorial to create a DB instance. Via the RDS console, I created a MySQL Database. This was very straightforward.
 
-##### **Create an EC2 instance and install a web server** 
+##### **Creating an EC2 Instance and Installing a Web Server** 
 
 Following the guide [here](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Tutorials.WebServerDB.CreateWebServer.html), I launched an EC2 instance using the Amazon Linux 2 AMI (Amazon Machine Image) and the t2.micro instance type, both of which are conveniently free with AWS free tier. Next I configured the instance and security group, and downloaded an RSA public and private key pair.   
 

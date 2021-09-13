@@ -20,7 +20,7 @@ I started this by creating an access key for my Admininstrator user as according
 
 ### **Launching EC2 (Elastic Compute Cloud) Instance**
 
-My aim here is to get a static web page up and running. To do this I first had to create an Amazon RDS (Relational Database Service) for MySQL database instance. But before doing *that*, I had to create an Amazon VPC (Virtual Private Cloud) to be used with a database instance. 
+My aim here is to get a static web page up and running. To do this I first had to create a Relational Database Service (RDS). But before doing *that*, I had to create an Amazon VPC (Virtual Private Cloud) to be used with a database instance. 
 
 #### **Creating an Amazon VPC**
 

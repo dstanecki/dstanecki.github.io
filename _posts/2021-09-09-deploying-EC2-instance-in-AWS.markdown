@@ -48,7 +48,6 @@ I also set up the sample page provided by AWS. Here's what that looks like:
 
 ![SamplePage](/assets/samplePage.PNG)
 ![SamplePage2](/assets/samplePage2.PNG)
-
 ### **Final Thoughts**
 
 The Amazon tutorials that I followed for this project were incredibly well-written. I found the directions to be straightforward and I was able to complete the tasks without much hassle at all. The guides don't just tell you how to do things, but they also tell you why you're doing them, which is a nice addition that helped me learn without the need for considerable external research.  

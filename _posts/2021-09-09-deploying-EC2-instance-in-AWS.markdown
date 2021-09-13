@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Deploying EC2 Instance In AWS"
+title:  "Deploying An AWS EC2 Instance To Host A Web Page"
 date:   2021-09-07 21:46:57 -0500
 categories: projects
 ---
@@ -49,3 +49,6 @@ I also set up the sample page provided by AWS. Here's what that looks like:
 ![SamplePage](/assets/samplePage.PNG)
 ![SamplePage2](/assets/samplePage2.PNG)
 
+### **Final Thoughts**
+
+The Amazon tutorials that I followed for this project were incredibly well-written. I found the directions to be straightforward and I was able to complete the tasks without much hassle at all. The guides don't just tell you how to do things, but they also tell you why you're doing them, which is a nice addition that helped me learn without the need for considerable external research.  

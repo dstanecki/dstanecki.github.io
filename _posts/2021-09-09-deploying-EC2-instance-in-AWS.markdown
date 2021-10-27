@@ -16,7 +16,7 @@ Next I enabled billing alerts and [created a billing alarm via the Cloudwatch co
 
 ### **Configuring the AWS CLI**
 
-I started this by creating an access key for my Admininstrator user as according to the directions [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html). Next I downloaded and installed the AWS Command Line Interface, and used the aws configure command to configure a default profile. I was able to view my entered information at C:\Users\USERNAME\.aws\
+I started this by creating an access key for my Administrator user as according to the directions [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html). Next I downloaded and installed the AWS Command Line Interface, and used the aws configure command to configure a default profile. I was able to view my entered information at C:\Users\USERNAME\.aws\
 
 ### **Launching EC2 (Elastic Compute Cloud) Instance**
 

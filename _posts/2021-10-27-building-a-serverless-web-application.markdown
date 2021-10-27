@@ -10,7 +10,7 @@ The goal of this project was to create a web application that has a user managem
 
 I began by creating a CodeCommit repository, setting up my IAM account with Git credentials, and populated the Git repository with website content provided by Amazon. The content consists of HTML, CSS, and JavaScript files that form a website called WildRydes that's made to look like a ride sharing site, but instead of cars it's unicorns. So after I hosted my repository using Amplify, the resulting index page was this: 
 
-![IndexPage](/assets/indexPage.PNG)
+![IndexPage](/assets/indexPage.png)
 
 ### **User Management**
 
@@ -24,7 +24,7 @@ I created a DynamoDB table to hold Strings. I also created a Lambda function usi
 
 I created a REST API and a Cognito User Pools Authorizer. After signing in to the website, I received an auth token and tested my authorizer successfully (received response code 200). Here's what that looked like:
 
-![SuccessfulAuthorizerTest](/assets/successfulAuthorizerTest.PNG)
+![SuccessfulAuthorizerTest](/assets/successfulAuthorizerTest.png)
 
 Then I created a resource in my API with a POST method (request method supported by HTTP), and integrated my Lambda function into it. Also, I added my user pool authorizer to the method request portion of the POST method, and deployed my API. 
 
@@ -32,8 +32,8 @@ The last thing to do was test the final product on the web site. At this point I
 
 I confirmed here that the website wasn't recognizing my updated repo on CodeCommit: 
 
-![NoInvokeURL](/assets/noInvokeURL.PNG)
+![NoInvokeURL](/assets/noInvokeURL.png)
 
 But on the bright side, I narrowed the problem down to either being a CodeCommit or Amplify issue. So after creating a new Amplify deployment with CodeCommit, the problem resolved itself, and here is the successful product: 
 
-![SuccessfulTest](/assets/successfulTest.PNG)
+![SuccessfulTest](/assets/successfulTest.png)

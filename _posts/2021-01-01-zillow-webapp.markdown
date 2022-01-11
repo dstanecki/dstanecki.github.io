@@ -40,7 +40,7 @@ Heading back to my Flask application, I updated the connection credentials and e
 
 You can see I was able to query by ZIP code and return the predicted one-year percent-change in housing costs for the given ZIP code. Figuring out how to do this with the user input was quite the task, but I eventually did it. Here's the final product: [INSERT FINAL PRODUCT]
 
-It's not visually pretty by any means, but it works and I'm satisfied with that. 
+Finally, I created an Elastic Beanstalk repository following the aforementioned article [here](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create-deploy-python-flask.html). AWS will automate the hosting of your Flask application at the drop of a dime, creating an EC2 instance, security group, load balancer, auto scaling group, S3 bucket, two CloudWatch alarms, a CloudFormation stack, and of course a domain name. Fancy stuff. 
 
 #### **Final Thoughts**
 

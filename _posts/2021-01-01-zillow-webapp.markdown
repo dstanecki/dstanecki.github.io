@@ -18,9 +18,9 @@ Now using the phpMyAdmin interface, I imported Zillow's home value forecast data
 
 I was experiencing some problems using the scripts provided by AWS to install the Elastic Beanstalk CLI, so I installed it manually as per these instructions: [https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install-windows.html](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install-windows.html)
 
-Then I created my project directory, virtual Flask environment, and requirements.txt to install the required libraries once EB deployed. In my Windows command line, I ran the following command: ~/eb-flask$ eb init -p python-3.7 flask-tutorial --region us-east-2. Then I created my environment with the "eb create" command.
+Then I created my project directory, virtual Flask environment, and requirements.txt to install the required libraries once EB deployed.
 
-At this point I was able to run the sample Flask app provided by AWS. In my project directory, I navigated to virt/Scripts and ran the activate.bat file. This starts up the virtual Flask environment in a new cmd prompt window. Then, in the new window, I navigated to the base directory of my project and ran my python file with the command "python application.py". Here's what that looked like: [INSERT runningFlask PIC HERE]
+At this point I was able to run the sample Flask app provided by AWS. In my project directory, I navigated to virt/Scripts and ran the activate.bat file. This starts up the virtual Flask environment in a new cmd prompt window. Then, in the new window, I navigated to the base directory of my project and ran my python file with the command "python application.py". Here's what that looked like: ![runningFlask](/assets/runningFlask.png)
 
 I wrote some basic HTML and added an index page to the templates folder of my project. I then needed to figure out how to connect the application to my back-end database. [This resource](https://www.digitalocean.com/community/tutorials/how-to-make-a-web-application-using-flask-in-python-3) pointed me in the right direction.
 
@@ -28,7 +28,7 @@ I wrote some basic HTML and added an index page to the templates folder of my pr
 
 As I was researching how to connect to my database, I came across something significant. The PHPMyAdmin client was connecting to 127.0.0.1, which meant that it wouldn't be listening on the external IP address. To my understanding, having the database listen on the external IP usually isn't practical in a real-world setting for various security and reliability reasons, but since this web app isn't intended to go public, I decided to go ahead and change the configuration. 
 
-To do this, I used [this source](https://linuxize.com/post/mysql-remote-access/) which was invaluable to say the least. I connected to my EC2 instance command line and was able to find the config file in /etc/my.cnf.d and set the bind-address to 0.0.0.0. This allowed the database to listen on all IPv4 interfaces. [INSERT BIND ADDRESS PIC HERE]. 
+To do this, I used [this source](https://linuxize.com/post/mysql-remote-access/) which was invaluable to say the least. I connected to my EC2 instance command line and was able to find the config file in /etc/my.cnf.d and set the bind-address to 0.0.0.0. This allowed the database to listen on all IPv4 interfaces. Here's a picture of that: ![bindAddress](/assets/bindAddress.png)
 
 Then I created a user to access the database and granted remote access to it. I also configured the iptables firewall to allow access to the MySQL port 3306. The command for this is "sudo iptables -A INPUT -p tcp --destination-port 3306 -j ACCEPT". I then tried to log in to the database using my new credentials but I got an error. I was pretty confused at this point. I had opened the correct port and configured the server to listen on the external IP address... I got so caught up in the command line trying to find the solution, but I had never thought to configure the security group of my EC2 instance. So I edited the inbound rules to accept port 3306 and successfully logged into the database remotely. 
 
@@ -36,9 +36,10 @@ Heading back to my Flask application, I updated the connection credentials and e
 
 ### **Querying the Database From the Web App User Interface**
 
-[This resource](http://tlc.iith.ac.in/img/gvv_tanmay_durga_database.pdf) was incredibly helpful. First I wrote some code that included a simple query, just to verify that I could query the database successfully: [INSERT QUERYTEST PIC HERE]
+[This resource](http://tlc.iith.ac.in/img/gvv_tanmay_durga_database.pdf) was incredibly helpful. First I wrote some code that included a simple query, just to verify that I could query the database successfully: ![queryTest](/assets/queryTest.png)
 
-You can see I was able to query by ZIP code and return the predicted one-year percent-change in housing costs for the given ZIP code. Figuring out how to do this with the user input was quite the task, but I eventually did it. Here's the final product: [INSERT FINAL PRODUCT]
+You can see I was able to query by ZIP code and return the predicted one-year percent-change in housing costs for the given ZIP code. Figuring out how to do this with the user input was quite the task, but I eventually did it. Here's the final product: ![finalProduct1](/assets/finalProduct1.png)
+![finalProduct2](/assets/finalProduct2.png)
 
 Finally, I created an Elastic Beanstalk repository following the aforementioned article [here](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create-deploy-python-flask.html). AWS will automate the hosting of your Flask application at the drop of a dime, creating an EC2 instance, security group, load balancer, auto scaling group, S3 bucket, two CloudWatch alarms, a CloudFormation stack, and of course a domain name. Fancy stuff. 
 

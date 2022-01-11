@@ -4,7 +4,7 @@ title:  "Zillow Housing Forecast Web Application"
 date:   2022-01-09 21:46:57 -0500
 categories: projects
 ---
-This was my first self-driven project dabbling in AWS. It's a simple two-tier web application that allows the user to input a ZIP code and view the predicted one year percent-change in housing costs for the given area. The back-end database resides on a LAMP web server running on an EC2 instance. The frontend is a Python Flask app hosted on Elastic Beanstalk. You can view my GitHub repo [here](https://github.com/dstanecki/ZillowHousingForecast).<!--break-->
+This was my first self-driven project dabbling in AWS. It's a simple two-tier web application that allows the user to input a ZIP code and view Zillow's predicted one year percent-change in housing costs for the given area. The back-end database resides on a LAMP web server running on an EC2 instance. The frontend is a Python Flask app hosted on Elastic Beanstalk. You can view my GitHub repo [here](https://github.com/dstanecki/ZillowHousingForecast).<!--break-->
 
 ### **LAMP Web Server Installation and Configuration**
 

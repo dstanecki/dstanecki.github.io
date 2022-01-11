@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Zillow Housing Forecast Web Application"
-date:   2021-01-01 21:46:57 -0500
+date:   2022-01-10 21:46:57 -0500
 categories: projects
 ---
 This was my first self-driven project dabbling in AWS. It's a simple two tier web application that allows the user to input a ZIP code and view the predicted one year percent-change in housing costs for the given area. The back-end database resides on a LAMP web server running on an EC2 instance. The front-end is a Python Flask app hosted on Elastic Beanstalk.<!--break-->
@@ -42,7 +42,7 @@ You can see I was able to query by ZIP code and return the predicted one-year pe
 
 Finally, I created an Elastic Beanstalk repository following the aforementioned article [here](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create-deploy-python-flask.html). AWS will automate the hosting of your Flask application at the drop of a dime, creating an EC2 instance, security group, load balancer, auto scaling group, S3 bucket, two CloudWatch alarms, a CloudFormation stack, and of course a domain name. Fancy stuff. 
 
-#### **Final Thoughts**
+### **Final Thoughts**
 
 I'm pretty happy with how this project turned out. It achieved its goal of letting the user find housing forecast data in a matter of seconds, without the added hassle of having to download a whole .csv file and sorting through it. This was my first attempt at building a web app without any direction. It was also my first time using Flask. I was a bit rusty with python and HTML, so this was a good refresher, especially with all of the obstacles I encountered.
 

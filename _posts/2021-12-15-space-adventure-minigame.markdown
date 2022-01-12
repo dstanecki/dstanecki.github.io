@@ -4,7 +4,7 @@ title:  "Space Adventure Minigame"
 date:   2021-12-15 00:46:57 -0500
 categories: projects
 ---
-This is a side-scroller style space-shooter minigame created on Greenfoot. For those unfamiliar with Greenfoot, it's "a visual and interactive program that uses object orientation with Java to build games, simulations, and other graphical programs". I created this project to use as a demo for a course I taught, as well as brush up on my own knowledge. To play, head to [https://www.greenfoot.org/scenarios/29074](https://www.greenfoot.org/scenarios/29074). Here's the GitHub repo with my code: [https://github.com/dstanecki/space-adventure-minigame](https://github.com/dstanecki/space-adventure-minigame).<!--break-->
+This is a side-scroller style space-shooter minigame created on Greenfoot. For those unfamiliar with Greenfoot, it's "a visual and interactive program that uses object orientation with Java to build games, simulations, and other graphical programs". I created this project to use as a demo for a course I taught, as well as brush up on my own knowledge. To play, head to [https://www.greenfoot.org/scenarios/29074](https://www.greenfoot.org/scenarios/29074){:target="_blank"}. Here's the GitHub repo with my code: [https://github.com/dstanecki/space-adventure-minigame](https://github.com/dstanecki/space-adventure-minigame){:target="_blank"}.<!--break-->
 
 #### **Game Mechanics**
 

@@ -4,7 +4,7 @@ title:  "Virtual Homelab Running Active Directory"
 date:   2021-09-07 21:46:57 -0500
 categories: projects
 ---
-This homelab utilizes VirtualBox to connect a Windows 2019 Server Domain Controller to a Windows 10 client machine. I followed [Josh Madakor's tutorial](https://www.youtube.com/watch?v=MHsI8hJmggI) on YouTube to set this up. He also provides a randomly generated list of ~1,000 users to add via PowerShell.<!--break-->
+This homelab utilizes VirtualBox to connect a Windows 2019 Server Domain Controller to a Windows 10 client machine. I followed [Josh Madakor's tutorial](https://www.youtube.com/watch?v=MHsI8hJmggI){:target="_blank"} on YouTube to set this up. He also provides a randomly generated list of ~1,000 users to add via PowerShell.<!--break-->
 
 The foundation for this homelab is shown in this diagram: ![AD Diagram](/assets/AD-Diagram.png)
 
@@ -25,6 +25,6 @@ The main things I learned from this project were:
 5. How to run PowerShell scripts on the server
 6. What organizational units are and how they are different from containers (Group Policy Objects can only be applied to organizational units. Examples of a GPO are password complexity enforcement and blocking certain software from being installed on machines) 
 
-I also found this resource to be quite helpful: [https://www.serveracademy.com/tutorials/active-directory-tutorial-for-beginners/](https://www.serveracademy.com/tutorials/active-directory-tutorial-for-beginners/)
+I also found this resource to be quite helpful: [https://www.serveracademy.com/tutorials/active-directory-tutorial-for-beginners/](https://www.serveracademy.com/tutorials/active-directory-tutorial-for-beginners/){:target="_blank"}
 
-As well as this article on Group Policy: [https://www.quest.com/community/blogs/b/microsoft-platform-management/posts/group-policy-what-is-it-and-how-do-gpos-work](https://www.quest.com/community/blogs/b/microsoft-platform-management/posts/group-policy-what-is-it-and-how-do-gpos-work)
+As well as this article on Group Policy: [https://www.quest.com/community/blogs/b/microsoft-platform-management/posts/group-policy-what-is-it-and-how-do-gpos-work](https://www.quest.com/community/blogs/b/microsoft-platform-management/posts/group-policy-what-is-it-and-how-do-gpos-work){:target="_blank"}

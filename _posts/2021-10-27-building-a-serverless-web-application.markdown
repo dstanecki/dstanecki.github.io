@@ -4,7 +4,7 @@ title:  "Building a Serverless Web Application"
 date:   2021-10-27 21:46:57 -0500
 categories: projects
 ---
-The goal of this project was to create a web application that has a user management system, serverless backend, and RESTful API. The project utilizes AWS Lambda, Amazon API Gateway, AWS Amplify, Amazon DynamoDB, and Amazon Cognito. I followed the hands-on tutorial provided by AWS [here](https://aws.amazon.com/getting-started/hands-on/build-serverless-web-app-lambda-apigateway-s3-dynamodb-cognito/).<!--break-->
+The goal of this project was to create a web application that has a user management system, serverless backend, and RESTful API. The project utilizes AWS Lambda, Amazon API Gateway, AWS Amplify, Amazon DynamoDB, and Amazon Cognito. I followed the hands-on tutorial provided by AWS [here](https://aws.amazon.com/getting-started/hands-on/build-serverless-web-app-lambda-apigateway-s3-dynamodb-cognito/){:target="_blank"}.<!--break-->
 
 ### **Hosting a Static Website**
 

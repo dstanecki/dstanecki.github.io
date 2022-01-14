@@ -28,7 +28,7 @@ The biggest problem I faced was figuring out how to point to the identifier of *
 
 ### **Implementing EventBridge and SNS**
 
-Next, I wanted to automate the Lambda functions to run. I ended up using an EventBridge rule that would trigger once a day always at the same time. I only set my rdsDelete function as a target for this rule. I thought about creating another rule for my rdsRestore function and running it ~20 minutes later, but this wouldn't have been ideal. My end goal was to minimize the downtime of the 'y' database while it updates, and this goal required me to find a solution that would run rdsRestore **directly** after the deletion of the database.
+Next, I wanted to automate the Lambda functions to run. I ended up using an EventBridge rule that would trigger once a day always at the same time. I set my rdsDelete function as a target for this rule. I thought about creating another rule for my rdsRestore function and running it ~20 minutes later, after the deletion had been finalized, but this wouldn't have been ideal. My end goal was to minimize the downtime of the 'y' database while it updates, and this goal required me to find a solution that would run rdsRestore **directly** after the deletion of the database.
 
 The solution I implemented was creating an SNS topic named 'TriggerRDSAutoRestore' which subscribed to my rdsRestore Lambda function. Then I created an RDS Event Subscription and configured it to send notifications to the SNS topic whenever a deletion of database 'y' occurred. After successful testing, this concluded the project.
 

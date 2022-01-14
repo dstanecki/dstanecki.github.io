@@ -4,7 +4,7 @@ title:  "Automated Cross-Region Duplication of an RDS Database Using Lambda, Eve
 date:   2022-01-13 21:46:57 -0500
 categories: projects
 ---
-I saw a contractual job listing asking for some Lambda functions to interact with RDS. Though the job listing was outdated, I still wanted to prove to myself that I could do it. My Lambda scripts, written in Python (Boto3), are located here: [https://github.com/dstanecki/automated-cross-region-duplication-of-rds-db](https://github.com/dstanecki/automated-cross-region-duplication-of-rds-db){:target="_blank"}<!--break-->
+I saw a contract job listing asking for some Lambda functions to interact with RDS. Though the listing was outdated, I still wanted to prove to myself that I could do it. My Lambda scripts, written in Python (Boto3), are located here: [https://github.com/dstanecki/automated-cross-region-duplication-of-rds-db](https://github.com/dstanecki/automated-cross-region-duplication-of-rds-db){:target="_blank"}<!--break-->
 
 ### **About the Job**
 

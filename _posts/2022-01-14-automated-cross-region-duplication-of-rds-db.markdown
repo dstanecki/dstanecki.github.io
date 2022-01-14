@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Automated Duplication of an RDS Database Cross-Region Using Lambda, EventBridge, and SNS"
+title:  "Automated Cross-Region Duplication of an RDS Database Using Lambda, EventBridge, and SNS"
 date:   2022-01-13 21:46:57 -0500
 categories: projects
 ---

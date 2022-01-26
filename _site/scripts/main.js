@@ -1,5 +1,7 @@
 var request = new XMLHttpRequest()
 
+request.open('GET', 'https://61jjt72rgl.execute-api.us-east-1.amazonaws.com/incrementVisitorCount', true)
+
 request.onload = function () {
     
 }

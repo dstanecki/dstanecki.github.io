@@ -4,7 +4,7 @@ title:  "Migrating From GitHub Pages to AWS"
 date:   2022-01-27 21:46:57 -0500
 categories: projects
 ---
-I migrated this site to from GitHub Pages to S3 + CloudFront and transferred my DNS name from Namecheap to Route 53. I also added visitor count functionality to the website using API Gateway, Lambda, and DynamoDB (the code can be found here: [https://github.com/dstanecki/website-visitor-count](https://github.com/dstanecki/website-visitor-count){:target="_blank"}).<!--break-->
+I migrated this site from GitHub Pages to S3 + CloudFront and transferred my DNS name from Namecheap to Route 53. I also added visitor count functionality to the website using API Gateway, Lambda, and DynamoDB (the code can be found here: [https://github.com/dstanecki/website-visitor-count](https://github.com/dstanecki/website-visitor-count){:target="_blank"}).<!--break-->
 
 #### **Migration Process**
 

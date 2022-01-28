@@ -17,4 +17,4 @@ I wrote a Lambda script that uses Boto3 to increment a DynamoDB table attribute 
 
 ### **Final Thoughts**
 
-Adding a visitor counter proved to be the most challenging part of this project, but I also learned a lot from it. Other than that, setting up the website hosting on AWS went rather smoothly. At this point in time I'm still waiting for my domain to transfer to Route 53, which can take up to 10 days according to AWS. Once I get that sorted, I'll include the visitor count in the footer of this site. 
+Adding a visitor counter proved to be the most challenging part of this project but I also learned a lot from it. Other than that, setting up the website hosting on AWS went rather smoothly. At this point in time I'm still waiting for my domain to transfer to Route 53, which can take up to 10 days according to AWS. Once I get that sorted, I'll modify my DNS name to point to my CloudFront distribution with the visitor count, rather than to my GitHub Pages site.

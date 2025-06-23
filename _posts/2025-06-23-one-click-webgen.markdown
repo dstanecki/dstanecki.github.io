@@ -23,13 +23,13 @@ GitHub repository link: [one-click-webgen](https://github.com/dstanecki/one-clic
 
 ### **Demonstration website generation**
 
-#### User prompt
+#### User prompt:
 ![one-click-webgen-user-prompt.png](/assets/one-click-webgen-user-prompt.png)
 
-#### Website link output
+#### Website link output:
 ![website-link-output.png](/assets/website-link-output.png)
 
-#### Live Hawaii-themed duck site
+#### Live Hawaii-themed duck site:
 ![hawaii-themed-duck-site.png](/assets/hawaii-themed-duck-site.png)
 
 ### **Final Thoughts**

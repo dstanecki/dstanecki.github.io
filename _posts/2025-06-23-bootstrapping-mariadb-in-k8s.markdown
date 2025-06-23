@@ -1,16 +1,17 @@
 ---
 layout: post
 title:  "Bootstrapping MariaDB in Kubernetes with ConfigMaps and initContainers"
-date:   2025-06-23 00:00:00 -0500
+date:   2025-06-22 00:00:00 -0500
 categories: projects
 ---
-While replatforming my [zillow-housing-forecast](https://github.com/dstanecki/zillow-housing-forecast/){:target="_blank"}) project to Kubernetes, I needed to find the most effective way to initialize my mariadb SQL database. When the app was just docker-compose, I had been mounting my CSV dataset and init script inside of a stock mariadb container. However, accomplishing the same in Kubernetes posed some unique challenges, especially because I needed to combine a small SQL script with a large dataset and inject both into a MariaDB pod on startup.<!--break-->
+While replatforming my [zillow-housing-forecast](https://github.com/dstanecki/zillow-housing-forecast/){:target="_blank"} project to Kubernetes, I needed to find the most effective way to initialize my mariadb SQL database. When the app was just docker-compose, I had been mounting my CSV dataset and init script inside of a stock mariadb container. However, accomplishing the same in Kubernetes posed some unique challenges, especially because I needed to combine a small SQL script with a large dataset and inject both into a MariaDB pod on startup.<!--break-->
 
 #### **Overview**
 
 In the application database, the data is imported from a dataset that's updated monthly by Zillow. The front-end users are not manipulating the data in any way. This lets me use the stock mariadb container and simply re-initialize and populate the SQL database each time a new mariadb pod is deployed. To accomplish that, I had to find the best way to get my import-data.sql script and my data.csv file inside the /docker-entrypoint-initdb.d directory. 
 
 Option A: I could curl both files from github to an initContainer and have them mounted to the db container. 
+
 Option B: I could see if I can mount them locally using k8s manifests (would avoid having external dependency on Git, extra curl download times, etc.)
 
 I ultimately chose Option B for the script (ConfigMap) and Option A for the dataset (curl) because ConfigMaps are easy to manage for small files and more reliable than pulling over the network, while the dataset exceeded the 1MiB limit.

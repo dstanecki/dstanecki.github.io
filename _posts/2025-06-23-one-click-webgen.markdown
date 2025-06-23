@@ -8,9 +8,9 @@ I remember when I was in high school English class I had to write about a dream 
 
 Fast forward to 2025, and I've built a project that reflects just how far things have come. Using OpenAI, Terraform, and a CI/CD pipeline, it can deploy a website from user prompts in just 2-3 minutes. Granted, it's rudimentary, consisting of a single-page HTML file, built-in CSS, and an optional AI-generated image, but I think it's a good demonstration of how far technology has come and a taste of what AI could be capable of in the future.<!--break-->
 
-#### **How it works**
+### **How it works**
 
-![one-click-webgen.drawio.png](assets/one-click-webgen.drawio.png)
+![one-click-webgen.drawio.png](/assets/one-click-webgen.drawio.png)
 
 - You configure your Azure API credentials and OpenAI API credits ($$)
 - You enter a prompt to generate AI art, a prompt to generate the website text content, and a prompt to describe what the visual theme should be.
@@ -19,17 +19,17 @@ Fast forward to 2025, and I've built a project that reflects just how far things
 - The generated files are deployed to Azure using Terraform (or optionally GitHub Pages static hosting)
 - GitHub Actions outputs the live link
 
-#### **Example Website**
+### **Demonstration website generation**
 
-##### User prompt
-![one-click-webgen-user-prompt.png](assets/one-click-webgen-user-prompt.png)
+#### User prompt
+![one-click-webgen-user-prompt.png](/assets/one-click-webgen-user-prompt.png)
 
-##### Website link output
-![website-link-output.png](assets/website-link-output.png)
+#### Website link output
+![website-link-output.png](/assets/website-link-output.png)
 
-##### Live Hawaii-themed duck site
-![hawaii-themed-duck-site.png](assets/hawaii-themed-duck-site.png)
+#### Live Hawaii-themed duck site
+![hawaii-themed-duck-site.png](/assets/hawaii-themed-duck-site.png)
 
-#### **Final Thoughts**
+### **Final Thoughts**
 
 I had a lot of fun building this and intend to keep up with the development of ChatGPT.

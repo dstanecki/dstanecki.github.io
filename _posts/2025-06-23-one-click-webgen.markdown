@@ -21,7 +21,7 @@ GitHub repository link: [one-click-webgen](https://github.com/dstanecki/one-clic
 - The generated files are deployed to Azure using Terraform (or optionally GitHub Pages static hosting)
 - GitHub Actions outputs the live link
 
-### **Demonstration website generation**
+### **Demonstrating website generation**
 
 #### User prompt:
 ![one-click-webgen-user-prompt.png](/assets/one-click-webgen-user-prompt.png)

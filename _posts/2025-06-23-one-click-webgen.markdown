@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "One-click website generation using OpenAI, CI/CD, and Terraform"
+title:  "One-Click Website Generation using OpenAI, CI/CD, and Terraform"
 date:   2025-06-23 01:00:00 -0500
 categories: projects
 ---
@@ -9,6 +9,8 @@ I remember when I was in high school English class I had to write about a dream 
 Fast forward to 2025, and I've built a project that reflects just how far things have come. Using OpenAI, Terraform, and a CI/CD pipeline, it can deploy a website from user prompts in just 2-3 minutes. Granted, it's rudimentary, consisting of a single-page HTML file, built-in CSS, and an optional AI-generated image, but I think it's a good demonstration of how far technology has come and a taste of what AI could be capable of in the future.<!--break-->
 
 ### **How it works**
+
+GitHub repository link: [one-click-webgen](https://github.com/dstanecki/one-click-webgen/){:target="_blank"} 
 
 ![one-click-webgen.drawio.png](/assets/one-click-webgen.drawio.png)
 

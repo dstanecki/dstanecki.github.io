@@ -21,4 +21,4 @@ k debug -n kube-system node/raspberrypi1 -it --image=nicolaka/netshoot
 curl -m 10 -k https://<webhook-service-ip>:443/
 ```
 
-Come to find out that unfortunately my wireless 5G internet does not allow ARP for MetalLB Layer 2 mode, and furthermore does not allow BGP for Layer 3 mode.
+Come to find out that unfortunately my wireless 5G internet does not allow ARP for MetalLB Layer 2 mode, and furthermore does not allow BGP for Layer 3 mode. It also does not alow port forwarding. So I won't worry about exposing my app publicly yet. 

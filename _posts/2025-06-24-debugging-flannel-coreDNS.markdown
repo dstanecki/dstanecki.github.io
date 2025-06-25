@@ -15,7 +15,7 @@ I was facing a myriad of issues. The end goal I needed to reach was fixing DNS o
 
 #### **Cross-Node Pod Communication**
 
-After more troubleshooting than I would like to admit--disabling my Tailscale mesh network, rebooting my nodes, and testing connectivity in both directions--I realized that I had overlooked a crucial requirement: the Node firewall ports. I had missed port 8472/UDP for Flannel VXLAN which is mentioned in the k3s installation docs: https://docs.k3s.io/installation/requirements. After opening this, I was able to ping my nodes from within a pod. 
+After more troubleshooting than I would like to admit--disabling my Tailscale mesh network, rebooting my nodes, and testing connectivity in both directions--I realized that I had overlooked a crucial requirement: the Node firewall ports. **I had missed opening port 8472/UDP for Flannel VXLAN** which is mentioned in the k3s installation docs: [https://docs.k3s.io/installation/requirements](https://docs.k3s.io/installation/requirements). After opening this, I was able to ping my nodes from within a pod. 
 
 #### **CoreDNS Debugging**
 

@@ -6,10 +6,8 @@ categories: projects
 ---
 I had been running my Zillow Housing Forecast application on a single Kubernetes node and I decided to add a second Raspberry Pi to the cluster. Both nodes were running and in a "Ready" state, however I noticed two problems. 
 
-1. The frontend app on the second node could be accessed via NodePort, but it couldn’t connect to the database—queries were timing out.
-2. The database pod couldn’t curl a file from GitHub, and nslookup confirmed that DNS resolution was failing, indicating a CoreDNS issue.
-
-What's more is I realized that despite the nodes being able to communicate just fine, cross-node pod communication was failing.<!--break-->
+1. The frontend app on the second node could be accessed via NodePort, but it couldn’t connect to the database—queries were timing out. The database pod also couldn’t curl a file from GitHub, and nslookup confirmed that DNS resolution was failing, indicating a CoreDNS issue.
+2. What's more is I realized that despite the nodes being able to communicate just fine, cross-node pod communication was failing.<!--break-->
 
 #### **Overview**
 

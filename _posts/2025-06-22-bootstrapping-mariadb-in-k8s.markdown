@@ -4,7 +4,7 @@ title:  "Bootstrapping MariaDB in Kubernetes with ConfigMaps and initContainers"
 date:   2025-06-22 00:00:00 -0500
 categories: projects
 ---
-While replatforming my [zillow-housing-forecast](https://github.com/dstanecki/zillow-housing-forecast/){:target="_blank"} project to Kubernetes, I needed to find the most effective way to initialize my mariadb SQL database. When the app was just docker-compose, I had been mounting my CSV dataset and init script inside of a stock mariadb container. However, accomplishing the same in Kubernetes posed some unique challenges, especially because I needed to combine a small SQL script with a large dataset and inject both into a MariaDB pod on startup.<!--break-->
+While replatforming my [zillow-housing-forecast](https://github.com/dstanecki/zillow-housing-forecast/){:target="_blank"} project to Kubernetes, I needed to find the most effective way to initialize my mariadb SQL database. I preferred to mount the files as volumes rather than bake it into the container because I wanted to have the flexibility to edit my files without rebuilding a container. This is the approach I used when the app was just docker-compose. However, accomplishing the same in Kubernetes posed some unique challenges, especially because I needed to combine a small SQL script with a large dataset and inject both into a MariaDB pod on startup.<!--break-->
 
 #### **Overview**
 
@@ -105,3 +105,5 @@ Mariadb Deployment file: for the time being I'm curling the data.csv using an in
 #### **Final Thoughts**
 
 This was a good exercise for learning about configMaps and volumes in Kubernetes. In the future, I might explore mounting the dataset from a persistent volume to remove the GitHub dependency altogether.
+
+**Update: I eventually decided that baking the files in a custom mariadb container was the best use case for me.

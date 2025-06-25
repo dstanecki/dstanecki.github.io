@@ -46,7 +46,7 @@ kubectl scale deploy coredns --replicas=3 -n kube-system
 
 But DNS resolution was still flaky. I noticed an odd pattern: running the frontend on Node 1, the first query succeeded, the second timed out, and this would repeat seemingly at random. Only successful queries were logged by the database pod.
 
-I went through the entire kubernetes DNS debug document to no avail https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/
+I went through the entire kubernetes DNS debug document to no avail [https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/](https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/)
 
 #### **The Root of the Problem: A Zombie CoreDNS Pod**
 

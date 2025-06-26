@@ -27,7 +27,7 @@ This is a snippet of my frontend app deployment and I also have a similar setup 
 
 ```bash
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{% raw %}}{{ .Values.replicaCount }}{{% endraw %}}
   selector:
     matchLabels:
       io.kompose.service: app
@@ -40,7 +40,7 @@ spec:
       labels:
         io.kompose.service: app
     spec:
-      `{{- if gt (int (default 1 .Values.replicaCount)) 1}}`
+      {{% raw %}}{{- if gt (int (default 1 .Values.replicaCount)) 1}}{{% endraw %}}
       # Spread pods across nodes if running multiple replicas
       affinity:
         podAntiAffinity:

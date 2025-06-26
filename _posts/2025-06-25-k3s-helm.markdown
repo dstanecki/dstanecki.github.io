@@ -4,7 +4,7 @@ title:  "Packaging my Zillow Housing Forecast app into a Helm Chart on K3s"
 date:   2025-06-26 00:00:00 -0500
 categories: projects
 ---
-I'd been deploying my [Zillow Housing Forecast application](https://github.com/dstanecki/zillow-housing-forecast/) using the traditional 'kubectl apply -f' method. Now that I'd created two types of deployment YAMLs--single node and double node--it was time to package it into a Helm chart and parameterize some variables.<!--break-->
+I'd been deploying my [Zillow Housing Forecast application](https://github.com/dstanecki/zillow-housing-forecast/) using the traditional **kubectl apply -f** method. Now that I'd created two types of deployment YAMLs--single node and double node--it was time to package it into a Helm chart and parameterize some variables.<!--break-->
 
 ### **Installing Helm on K3s**
 

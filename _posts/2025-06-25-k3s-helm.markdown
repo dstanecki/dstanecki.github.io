@@ -40,7 +40,7 @@ spec:
       labels:
         io.kompose.service: app
     spec:
-      {{- if gt (int (default 1 .Values.replicaCount)) 1}}
+      `{{- if gt (int (default 1 .Values.replicaCount)) 1}}`
       # Spread pods across nodes if running multiple replicas
       affinity:
         podAntiAffinity:

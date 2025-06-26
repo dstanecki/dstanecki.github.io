@@ -54,7 +54,7 @@ spec:
                       values:
                         - app
                 topologyKey: kubernetes.io/hostname
-      {{- end}}
+      {{% raw %}}{{- end}}{{% endraw %}}
 ```
 
 

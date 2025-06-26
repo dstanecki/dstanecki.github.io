@@ -25,7 +25,7 @@ Since my idea is to separate single-node deployments from multi-node deployments
 
 This is a snippet of my frontend app deployment and I also have a similar setup for my DB deployment. I'm setting the default deployment to be 1 replica and I'm making the assumption that any user installing 1 replica does not require pod affinity rules. If the replica count is **greater than** 1, then I'm applying soft anti-affinity rules so that the pods will prefer to spread out across nodes.
 
-{{% raw %}}
+{% raw %}
 ```bash
 spec:
   replicas: {{ .Values.replicaCount }}
@@ -57,7 +57,7 @@ spec:
                 topologyKey: kubernetes.io/hostname
       {{- end}}
 ```
-{{% endraw %}}
+{% endraw %}
 
 ### **Final Thoughts & Notes**
 

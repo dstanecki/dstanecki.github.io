@@ -25,9 +25,10 @@ Since my idea is to separate single-node deployments from multi-node deployments
 
 This is a snippet of my frontend app deployment and I also have a similar setup for my DB deployment. I'm setting the default deployment to be 1 replica and I'm making the assumption that any user installing 1 replica does not require pod affinity rules. If the replica count is **greater than** 1, then I'm applying soft anti-affinity rules so that the pods will prefer to spread out across nodes.
 
+{{% raw %}}
 ```bash
 spec:
-  replicas: {{% raw %}}{{ .Values.replicaCount }}{{% endraw %}}
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       io.kompose.service: app
@@ -40,7 +41,7 @@ spec:
       labels:
         io.kompose.service: app
     spec:
-      {{% raw %}}{{- if gt (int (default 1 .Values.replicaCount)) 1}}{{% endraw %}}
+      {{- if gt (int (default 1 .Values.replicaCount)) 1}}
       # Spread pods across nodes if running multiple replicas
       affinity:
         podAntiAffinity:
@@ -54,9 +55,9 @@ spec:
                       values:
                         - app
                 topologyKey: kubernetes.io/hostname
-      {{% raw %}}{{- end}}{{% endraw %}}
+      {{- end}}
 ```
-
+{{% endraw %}}
 
 ### **Final Thoughts & Notes**
 

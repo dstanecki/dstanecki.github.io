@@ -1,14 +1,14 @@
 ---
 layout: post
-title:  "Making a Helm Chart on K3s"
-date:   2025-06-25 21:46:57 -0500
+title:  "Packaging my Zillow Housing Forecast app into a Helm Chart on K3s"
+date:   2025-06-26 00:00:00 -0500
 categories: projects
 ---
-Now that I'd created two types of deployment YAMLs--single node and double node--it was time to package and segment them into Helm charts.<!--break-->
+I'd been deploying my [Zillow Housing Forecast application](https://github.com/dstanecki/zillow-housing-forecast/) using the traditional 'kubectl apply -f' method. Now that I'd created two types of deployment YAMLs--single node and double node--it was time to package it into a Helm chart and parameterize some variables.<!--break-->
 
-#### **Installing Helm on K3s**
+### **Installing Helm on K3s**
 
-Important to note that k3s stores the kubeconfig file at /etc/rancher/k3s/k3s.yaml and not the traditional ~/.kube/config because they figured that installing the cluster system-wide was more simple than installing it under a user. So we need to export kubeconfig variable:
+Important to note that k3s stores the kubeconfig file at /etc/rancher/k3s/k3s.yaml and not the traditional ~/.kube/config because they figured that installing the cluster system-wide was more simple than installing it under a user. It certainly makes more sense for my use case of a homelab environment since I'm only managing the one cluster. So we need to export kubeconfig variable:
 
 ```bash
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
@@ -17,5 +17,75 @@ export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml >> ~/.bashrc 
 ```
 
-#### **Final Thoughts**
+### **Helm Chart for my Zillow Housing Forecast Application**
 
+I started by creating the chart scaffold and copying over my definition YAMLs to the templates/ directory (excluding my namespace definition file). I also removed the namespace lines in my YAMLs because I want Helm to handle it when it's deployed via CLI. 
+
+Since my idea is to separate single-node deployments from multi-node deployments, I want to parametize replicas and podAffinity. On a single-node deployment, podAffinity isn't needed but a multi-node deployment should have "preferred anti affinity" based on node hostname.
+
+This is a snippet of my frontend app deployment and I also have a similar setup for my DB deployment. I'm setting the default deployment to be 1 replica and I'm making the assumption that any user installing 1 replica does not require pod affinity rules. If the replica count is **greater than** 1, then I'm applying soft anti-affinity rules so that the pods will prefer to spread out across nodes.
+
+```bash
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      io.kompose.service: app
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.service.type: nodeport
+        kompose.version: 1.34.0 (cbf2835db)
+      labels:
+        io.kompose.service: app
+    spec:
+      {{- if gt (int (default 1 .Values.replicaCount)) 1}}
+      # Spread pods across nodes if running multiple replicas
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: io.kompose.service
+                      operator: In
+                      values:
+                        - app
+                topologyKey: kubernetes.io/hostname
+      {{- end}}
+```
+
+
+### **Final Thoughts & Notes**
+
+This was a solid start into learning about how Helm works and I plan to continue using it to deploy and parameterize my kubernetes apps.
+
+Notes
+- A Chart is a package which generates K8s manifests, parametization files, can have subcharts
+- A Release is an instance of a chart running in a cluster. If you install the same chart twice, each will have its own "release" so that they can coexist
+- In this command, happy-panda is the release name, bitname is the repo, and wordpress is the chart
+    ```bash 
+    helm install happy-panda bitnami/wordpress
+    ```
+- Can use --generate-name in place of release name
+- Check status
+    ```bash
+    helm status happy-panda
+    ```
+- Charts have default configurations that are installed if you don't specify values 
+    - See what options are configurable on a chart 
+        ```bash
+        helm show values bitnami/wordpress
+        # Apply your own custom values.yaml:
+        helm install -f values.yaml bitnami/wordpress --generate-name
+        ```
+- Deploying my own zhf Helm chart: 
+```bash
+    - helm create zhf-chart
+    - helm lint zhf-chart # Validate formatting
+    - helm template zhf-chart # Double check Chart templates
+    - helm package zhf-chart
+    - helm install <releaseName> ./zhf-chart-<version>.tgz
+```

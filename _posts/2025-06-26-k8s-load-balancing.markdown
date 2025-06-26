@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Managing K8s Bare-metal Load Balancing Without Access to Router Controls"
-date:   2025-06-25 21:46:57 -0500
+date:   2025-06-26 21:46:57 -0500
 categories: projects
 ---
 When deciding between buying Raspberry Pis or using GKE or cloud VMs for my kubernetes cluster, I carefully weighed the cost of each. The Pis had a higher upfront cost but there was also a peace of mind knowing that there wouldn't be expensive running costs. So, with that mindset in place, I chose to set up load balancing all on my bare-metal cluster -- with no dependency on cloud infrastructure. I plan to eventually expose this app publicly under my custom DNS domain so I had to keep all of that in mind while working around my major limitation: dumbed down router controls.<!--break-->

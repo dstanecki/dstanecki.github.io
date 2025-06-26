@@ -1,0 +1,21 @@
+---
+layout: post
+title:  "Making a Helm Chart on K3s"
+date:   2025-06-25 21:46:57 -0500
+categories: projects
+---
+Now that I'd created two types of deployment YAMLs--single node and double node--it was time to package and segment them into Helm charts.<!--break-->
+
+#### **Installing Helm on K3s**
+
+Important to note that k3s stores the kubeconfig file at /etc/rancher/k3s/k3s.yaml and not the traditional ~/.kube/config because they figured that installing the cluster system-wide was more simple than installing it under a user. So we need to export kubeconfig variable:
+
+```bash
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+
+# Persist on reboot, note >> appends to the end of file and > would overwrite it
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml >> ~/.bashrc 
+```
+
+#### **Final Thoughts**
+

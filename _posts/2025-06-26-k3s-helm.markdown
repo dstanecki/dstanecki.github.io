@@ -14,7 +14,7 @@ Important to note that k3s stores the kubeconfig file at /etc/rancher/k3s/k3s.ya
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 
 # Persist on reboot, note >> appends to the end of file and > would overwrite it
-export KUBECONFIG=/etc/rancher/k3s/k3s.yaml >> ~/.bashrc 
+export 'KUBECONFIG=/etc/rancher/k3s/k3s.yaml' >> ~/.bashrc 
 ```
 
 ### **Helm Chart for my Zillow Housing Forecast Application**

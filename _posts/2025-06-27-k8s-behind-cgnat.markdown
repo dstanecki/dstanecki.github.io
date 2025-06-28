@@ -19,19 +19,16 @@ Now luckily, there are two other services that allow you to get past CGNAT restr
 **CNAME Support**
 - CloudFlare Tunnel is free and supports custom CNAME records (caveat is that you must transfer your domain to CloudFlare)
 - Ngrok has a free-tier but custom CNAME support will run you about $10/month (but no domain transfer required)
----
 **TLS Certificate Options**
 - Ngrok requires paid plan for both Ngrok-managed certs for your CNAME and for using self-managed certs (e.g. Let'sEncrypt) to achieve TLS passthrough
 - CloudFlare Tunnel will manage the TLS certificate for any domain proxied through CloudFlare as long as the domain is managed in CloudFlare DNS. Meaning, you can use their cert or your own, free of charge either way
----
 **End-to-End TLS Encryption**
 - Ngrok supports end-to-end encryption if you configure it that way
 - CloudFlare Tunnel doesn't support it and terminates TLS at their servers
----
 **Security Features**
 - CloudFlare Tunnel has built-in DDoS protection and web application firewall 
 - Ngrok does not
----
+
 #### **FINAL VERDICT**
 For my use case, I would prefer to stay free tier and I also want CNAME support, so I'm going to choose **CloudFlare Tunnel**. The main drawback is that I don't want to transfer my domain there as I like having it in AWS Route 53, but that's the sacrifice I have to make. The other drawback is I don't get to have end-to-end TLS encryption. That being said, I might not stay with the CloudFlare solution so I'm going to lay out **both options** in this post. 
 

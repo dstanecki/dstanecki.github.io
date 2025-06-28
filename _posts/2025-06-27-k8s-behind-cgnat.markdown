@@ -10,29 +10,29 @@ When I moved into my new apartment, I brought my Raspberry Pi K8s cluster with m
 
 I racked my brain for workarounds. Public IPv6 address? Nope -- not allowed with this 5G wireless router. Set up a site-to-site VPN to a cloud provider and use a cloud load balancer? Maybe, but I wanted to keep everything bare-metal and easily reproducible. Not only that, but my primary motivation for doing this project on Raspberry Pis was to avoid ongoing costs of cloud infrastructure.
 
-I had already been using a [Tailscale](https://tailscale.com/) private mesh network to connect my Raspberry Pis with my laptop, since I like to SSH to them remotely if I need to. This was actually a lifesaver for me, since I was using PiVPN (OpenVPN) with my old router which allowed port forwarding, but of course this new wireless 5G router does not. **While Tailscale does offer a service called Funnel, which can expose your private service to the internet, it restricts you to using a subdomain.ts.net and is not compatible with CNAME -- it will throw an SSL error.** The feature is relatively new and in Beta testing, so this is not readily apparent. Ask me how I know.  
+I had already been using a [Tailscale](https://tailscale.com/) private mesh network to connect my Raspberry Pis with my laptop, since I like to SSH to them remotely if I need to. This was actually a lifesaver for me, since I was using PiVPN (OpenVPN) with my old router which allowed port forwarding, but of course this new wireless 5G router does not. **While Tailscale does offer a service called Funnel, which can expose your private service to the internet, it restricts you to using a subdomain.ts.net and is not compatible with CNAME. It will throw an SSL error.** The feature is relatively new and in Beta testing, so this is not readily apparent. Yes, I found this out the hard way.
 
 Now luckily, there are two other services that allow you to get past CGNAT restrictions **and** let you use your own domain name: Ngrok and CloudFlare Tunnel.
 
 ### **Ngrok vs CloudFlare Tunnel**
 
-#### CNAME Support
+**CNAME Support**
 - CloudFlare Tunnel is free and supports custom CNAME records (caveat is that you must transfer your domain to CloudFlare)
 - Ngrok has a free-tier but custom CNAME support will run you about $10/month (but no domain transfer required)
-
-#### TLS Certificate Options
+---
+**TLS Certificate Options**
 - Ngrok requires paid plan for both Ngrok-managed certs for your CNAME and for using self-managed certs (e.g. Let'sEncrypt) to achieve TLS passthrough
 - CloudFlare Tunnel will manage the TLS certificate for any domain proxied through CloudFlare as long as the domain is managed in CloudFlare DNS. Meaning, you can use their cert or your own, free of charge either way
-
-#### End-to-End TLS Encryption
+---
+**End-to-End TLS Encryption**
 - Ngrok supports end-to-end encryption if you configure it that way
 - CloudFlare Tunnel doesn't support it and terminates TLS at their servers
-
-#### Security Features
+---
+**Security Features**
 - CloudFlare Tunnel has built-in DDoS protection and web application firewall 
 - Ngrok does not
-
-#### FINAL VERDICT
+---
+#### **FINAL VERDICT**
 For my use case, I would prefer to stay free tier and I also want CNAME support, so I'm going to choose **CloudFlare Tunnel**. The main drawback is that I don't want to transfer my domain there as I like having it in AWS Route 53, but that's the sacrifice I have to make. The other drawback is I don't get to have end-to-end TLS encryption. That being said, I might not stay with the CloudFlare solution so I'm going to lay out **both options** in this post. 
 
 **Option A)** Ngrok with self-managed TLS cert via Let's Encrypt to achieve end-to-end TLS encryption

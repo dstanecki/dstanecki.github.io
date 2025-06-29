@@ -50,57 +50,61 @@ Prerequisites:
 - Domain in Route 53, CNAME record pointing to the auto-generated <random-subdomain>.ngrok.io
 
 1. Internal app-service needs to be ClusterIP (as opposed to NodePort which is what I was using to expose my app internally. I'm going to make this configurable via Helm)
+
 2. Note down or edit the Traefik Websecure NodePort (This is the port that will be exposed to Ngrok later on)
 
-```bash
-kubectl -n kube-system edit svc traefik
-```
+  ```bash
+  kubectl -n kube-system edit svc traefik
+  ```
+
 3. Create a Route 53 service account (will be used with the DNS01 Challenge)
+
 4. Create kubectl secret 
 
-```bash
-kubectl create secret generic route53-credentials-secret \
-  --from-literal=access-key-id=<access-key> \
-  --from-literal=secret-access-key=<secret-access-key> \
-  --namespace cert-manager
-```
+  ```bash
+  kubectl create secret generic route53-credentials-secret \
+    --from-literal=access-key-id=<access-key> \
+    --from-literal=secret-access-key=<secret-access-key> \
+    --namespace cert-manager
+  ```
 5. Create a ClusterIssuer
 
-```yaml
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: letsencrypt-prod
-spec:
-  acme:
-    email: <YOUR_EMAIL>
-    server: https://acme-v02.api.letsencrypt.org/directory
-    privateKeySecretRef:
-      name: letsencrypt-prod
-    solvers:
-    - dns01:
-        route53:
-          region: us-east-1
-          hostedZoneID: <OPTIONAL BUT RECOMMENDED>
-          accessKeyIDSecretRef:
-            name: route53-credentials-secret
-            key: access-key-id
-          secretAccessKeySecretRef:
-            name: route53-credentials-secret
-            key: secret-access-key
-```
+  ```yaml
+  apiVersion: cert-manager.io/v1
+  kind: ClusterIssuer
+  metadata:
+    name: letsencrypt-prod
+  spec:
+    acme:
+      email: <YOUR_EMAIL>
+      server: https://acme-v02.api.letsencrypt.org/directory
+      privateKeySecretRef:
+        name: letsencrypt-prod
+      solvers:
+      - dns01:
+          route53:
+            region: us-east-1
+            hostedZoneID: <OPTIONAL BUT RECOMMENDED>
+            accessKeyIDSecretRef:
+              name: route53-credentials-secret
+              key: access-key-id
+            secretAccessKeySecretRef:
+              name: route53-credentials-secret
+              key: secret-access-key
+  ```
 6. Create Traefik Middleware object
 
-```yaml
-apiVersion: traefik.io/v1alpha1
-kind: Middleware
-metadata:
-  name: redirect-https
-spec:
-  redirectScheme:
-    scheme: https
-    permanent: true
-```
+  ```yaml
+  apiVersion: traefik.io/v1alpha1
+  kind: Middleware
+  metadata:
+    name: redirect-https
+  spec:
+    redirectScheme:
+      scheme: https
+      permanent: true
+  ```
+
 7. Create an Ingress
 
 ```yaml
@@ -134,7 +138,9 @@ spec:
 ```bash
 watch kubectl get challenges -n kube-system
 ```
+
 9. Expose the Traefik Websecure NodePort from step 2 to Ngrok
+
 10. Test public access from another machine and see that your application is now being served with HTTPS!
 
 ### **Option B: CloudFlare**

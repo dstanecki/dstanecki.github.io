@@ -33,7 +33,7 @@ Now luckily, there are two other services that allow you to get past CGNAT restr
 - Ngrok does not
 
 #### **FINAL VERDICT**
-For my use case, I would prefer to stay free tier and I also want CNAME support, so I'm going to choose **CloudFlare Tunnel**. The main drawback is that I don't want to transfer my domain there as I like having it in AWS Route 53, but that's the sacrifice I have to make. The other drawback is I don't get to have end-to-end TLS encryption. That being said, I might not stay with the CloudFlare solution so I'm going to lay out **both options** in this post. 
+For my use case, I would prefer to stay free tier and I also want CNAME support, so I'm going to choose **CloudFlare Tunnel**. I'll have to delegate my Route 53 domain to CloudFlare. CloudFlare does support "partial cname" (use CloudFlare while maintaining primary and authoritative DNS provider), but this is a paid feature like with Ngrok. The other drawback with using CloudFlare is that I don't get to have end-to-end TLS encryption. That being said, I might not stay with the CloudFlare solution so I'm going to lay out **both options** in this post. 
 
 **Option A)** Ngrok with self-managed TLS cert via Let's Encrypt to achieve end-to-end TLS encryption
 
@@ -51,11 +51,13 @@ Prerequisites:
 
 1. Internal app-service needs to be ClusterIP (as opposed to NodePort which is what I was using to expose my app internally. I'm going to make this configurable via Helm)
 2. Note down or edit the Traefik Websecure NodePort (This is the port that will be exposed to Ngrok later on)
+
 ```bash
 kubectl -n kube-system edit svc traefik
 ```
 3. Create a Route 53 service account (will be used with the DNS01 Challenge)
 4. Create kubectl secret 
+
 ```bash
 kubectl create secret generic route53-credentials-secret \
   --from-literal=access-key-id=<access-key> \
@@ -63,6 +65,7 @@ kubectl create secret generic route53-credentials-secret \
   --namespace cert-manager
 ```
 5. Create a ClusterIssuer
+
 ```yaml
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -87,6 +90,7 @@ spec:
             key: secret-access-key
 ```
 6. Create Traefik Middleware object
+
 ```yaml
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
@@ -98,6 +102,7 @@ spec:
     permanent: true
 ```
 7. Create an Ingress
+
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -125,6 +130,7 @@ spec:
         - zhf.danielstanecki.com
 ```
 8. Apply the objects and the cert will be issued automatically and begin DNS01 Challenge which can take a few minutes. 
+
 ```bash
 watch kubectl get challenges -n kube-system
 ```
@@ -132,6 +138,12 @@ watch kubectl get challenges -n kube-system
 10. Test public access from another machine and see that your application is now being served with HTTPS!
 
 ### **Option B: CloudFlare**
+
+1. Obtain a cloudflared token 
+2. Createa k8s secret with the base64 encoded string
+3. Open port 2000 locally
+
+BTW.... cfargotunnel.com is not public
 
 TO BE CONT...
 Understand when the expiry will happen and have instructions written up here. 

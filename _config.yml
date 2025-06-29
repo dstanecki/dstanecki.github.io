@@ -34,6 +34,7 @@ plugins:
   
 show_excerpts: true
 excerpt_separator: "<!--break-->"
+list_numbering: true
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to

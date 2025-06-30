@@ -12,7 +12,7 @@ When I moved into my new apartment, I brought my Raspberry Pi K8s cluster with m
 
 I racked my brain for workarounds. Public IPv6 address? Nope -- not allowed with this 5G wireless router. Set up a site-to-site VPN to a cloud provider and use a cloud load balancer? Maybe, but I wanted to keep everything bare-metal and easily reproducible. Not only that, but my primary motivation for doing this project on Raspberry Pis was to avoid ongoing costs of cloud infrastructure.
 
-I had already been using a [Tailscale](https://tailscale.com/) private mesh network to connect my Raspberry Pis with my laptop, since I like to SSH to them remotely if I need to. This was actually a lifesaver for me, since I was using PiVPN (OpenVPN) with my old router which allowed port forwarding, but of course this new wireless 5G router does not. **While Tailscale does offer a service called Funnel, which can expose your private service to the internet, it restricts you to using a subdomain.ts.net and is not compatible with CNAME.** I found this out the hard way when my CNAME setup kept throwing an SSL error with no apparent reason. Funnel is still in Beta, so limitations like this aren't clearly documented yet.
+I had already been using a [Tailscale](https://tailscale.com/) private mesh network to connect my Raspberry Pis with my laptop, since I like to SSH to them remotely if I need to. This was actually a lifesaver for me, since I was using PiVPN (OpenVPN) with my old router which allowed port forwarding, but of course this new wireless 5G router does not. **While Tailscale does offer a service called Funnel, which can expose your private service to the internet, it restricts you to using a subdomain.ts.net and is not compatible with CNAME.** I found this out the hard way when my CNAME setup kept throwing an SSL error for no apparent reason. Funnel is still in Beta, so limitations like this aren't clearly documented yet.
 
 Luckily, there are two other services that allow you to get past CGNAT restrictions **and** let you use your own domain name: Ngrok and CloudFlare Tunnel.
 
@@ -148,7 +148,7 @@ Prerequisites:
 ```
 
 {:start="9"}
-9. Apply the objects and the cert will be issued automatically and begin DNS01 Challenge which can take a few minutes. 
+9. Apply the objects and the cert will be issued automatically and begin DNS-01 Challenge which can take a few minutes. 
 
   ```bash
   watch kubectl get challenges -n kube-system
@@ -156,7 +156,7 @@ Prerequisites:
 
 {:start="10"}
 10. Configure CloudFlare Tunnel
-- Point your domain to https://traefik.<namespace>.svc.cluster.local:443 
+- Point your domain to https://traefik.default.svc.cluster.local:443 (if in default namespace)
 - Specify Origin Server Name, NO TLS Verify, enable HTTP2 since that's fully supported by Traefik
 - Enforce "Always Use HTTPS"
 

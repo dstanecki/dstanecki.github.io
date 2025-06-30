@@ -59,8 +59,16 @@ Prerequisites:
 2. Associate your domain with the tunnel and make sure that your domain nameservers are delegated to CloudFlare's servers. Point your CNAME record to TUNNEL_ID.cfargotunnel.com 
 
 {:start="3"}
-3. Internal app-service needs to be ClusterIP (as opposed to NodePort which is what I was using to expose my app internally)
+3. Internal app-service needs to be ClusterIP (as opposed to NodePort which is what I was using to expose my app internally), and Traefik service needs configuration as follows:
 
+  ```yaml
+    - name: websecure
+      port: 443
+      protocol: TCP
+      targetPort: 443
+      # targetPort defaults to "websecure" which works if Traefik was installed by Helm and correctly mapped the port. 
+      # But I ran into problems with k3s managing Traefik regarding this targetPort mapping so I prefer to specify 443 and make that persist via a HelmChartConfig
+  ```
 {:start="4"}
 4. Create a Route 53 service account with proper IAM permissions (will be used for the DNS-01 Challenge)
 

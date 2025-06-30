@@ -37,8 +37,7 @@ For my use case, I would prefer to stay free tier and I also want CNAME support,
 
 # **Steps**
 
-Architecture of Let's Encrypt + Traefik Reverse Proxy + Cloudflare Tunnel setup
----
+#### Architecture of Let's Encrypt + Traefik Reverse Proxy + Cloudflare Tunnel setup
 ![/assets/k8s-ingress-letsencrypt.drawio.png](/assets/k8s-ingress-letsencrypt.drawio.png)
  
 Prerequisites: 
@@ -165,14 +164,3 @@ Prerequisites:
 11. If done right, your web application will serve over HTTPS only. 
 
 ![/assets/zhfCert.png](/assets/zhfCert.png)
-
-TO BE CONT...
-Understand the security concerns.
-
-Helm chart to segment internal (dev) deployment from public deployment 
-
-cloudflared deployment should have antiAffinity
-
-Figure out can we include cloudflared in the helm? Should we? How about the Traefik stuff? Should we variabilize secrets and stuff via Helm?
-
-Think about if I should modify the local NodePort deployment (which is accessed via Node1 IP, no failover)

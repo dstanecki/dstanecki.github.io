@@ -7,17 +7,19 @@
 
     <div class="footer-col-wrapper">
       <div class="footer-col">
+      {%- if site.author %}
         <ul class="contact-list">
-          {% if site.title %}
-            <li class="p-name">{{ site.title | escape }}</li>
-          {% endif %}
-          {% if site.email %}
-            <li><a class="u-email" href="mailto:{{ site.email }}">{{ site.email }}</a></li>
-          {% endif %}
+          {% if site.author.name -%}
+            <li class="p-name">{{ site.author.name | escape }}</li>
+          {% endif -%}
+          {% if site.author.email -%}
+            <li><a class="u-email" href="mailto:{{ site.email }}">{{ site.author.email }}</a></li>
+          {%- endif %}
         </ul>
+      {%- endif %}
       </div>
       <div class="footer-col">
-        <div>{{ site.description | markdownify }}</div>
+        <p>{{ site.description | escape }}</p><script src="/assets/js/main.js"></script><p id="visitors">&nbsp;</p>
       </div>
     </div>
 
@@ -26,4 +28,5 @@
     </div>
 
   </div>
+
 </footer>

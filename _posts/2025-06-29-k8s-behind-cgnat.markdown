@@ -6,6 +6,10 @@ categories: projects
 ---
 A step-by-step guide to serving a Kubernetes app over HTTPS using Traefik, cert-manager, and Cloudflare Tunnel — **without a public IP**, on bare metal Raspberry Pis.
 
+![serverRack.jpg](serverRack.jpg)
+|:--:| 
+| *My Raspberry Pi Server Rack* |
+
 When I moved into my new apartment, I brought my Raspberry Pi K8s cluster with me, planning to expose it publicly. Except I missed one small detail: the apartment didn't have a coaxial outlet for traditional internet. I had to get a wireless 5G router which uses **CGNAT (Carrier-Grade NAT)** -- a method used by ISPs to conserve public IPv4 addresses by having multiple customers share a single public IP. You can't assign a public IP to your load balancer if you don't have your own to begin with. That wrecked my plan to expose my app via MetalLB and Traefik. Here's how I worked around it.<!--break-->
 
 ### **What Doesn't Work**

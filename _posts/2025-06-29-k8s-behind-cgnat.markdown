@@ -71,6 +71,7 @@ Prerequisites:
       # But I ran into problems with k3s managing Traefik regarding 
       # this targetPort mapping so I prefer to specify 443 and make that persist via a HelmChartConfig.
   ```
+  
 {:start="4"}
 4. Create a Route 53 service account with proper IAM permissions (will be used for the DNS-01 Challenge)
 

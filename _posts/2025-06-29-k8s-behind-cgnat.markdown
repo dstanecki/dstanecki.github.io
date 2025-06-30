@@ -66,8 +66,10 @@ Prerequisites:
       port: 443
       protocol: TCP
       targetPort: 443
-      # targetPort defaults to "websecure" which works if Traefik was installed by Helm and correctly mapped the port. 
-      # But I ran into problems with k3s managing Traefik regarding this targetPort mapping so I prefer to specify 443 and make that persist via a HelmChartConfig
+      # targetPort defaults to "websecure" which works if 
+      # Traefik was installed by Helm and correctly mapped the port. 
+      # But I ran into problems with k3s managing Traefik regarding 
+      # this targetPort mapping so I prefer to specify 443 and make that persist via a HelmChartConfig.
   ```
 {:start="4"}
 4. Create a Route 53 service account with proper IAM permissions (will be used for the DNS-01 Challenge)

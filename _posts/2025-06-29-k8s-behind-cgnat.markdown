@@ -131,7 +131,7 @@ Prerequisites:
   ```
 
 {:start="8"}
-8. (Optional) Create a Middleware object with rate-limiting and HTTP header rules
+8. (Optional) Create a Middleware object with rate-limiting and HTTP header rules. It's good to have this extra layer of security on top of what CloudFlare already provides. Be sure to apply this object in the same namespace as your Ingress.
 
   ```yaml
   apiVersion: traefik.io/v1alpha1

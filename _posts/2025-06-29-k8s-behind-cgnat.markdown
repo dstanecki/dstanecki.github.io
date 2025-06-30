@@ -129,7 +129,60 @@ Prerequisites:
   ```
 
 {:start="8"}
-8. Create an Ingress with websecure entrypoint and reference the Certificate
+8. (Optional) Create a Middleware object with rate-limiting and HTTP header rules
+
+  ```yaml
+  apiVersion: traefik.io/v1alpha1
+  kind: Middleware
+  metadata:
+    name: secure-middleware
+  spec:
+    chain:
+      middlewares:
+        - name: redirect-to-https
+        - name: security-headers
+        - name: rate-limit
+  ---
+  # Redirect HTTP to HTTPS
+  apiVersion: traefik.io/v1alpha1
+  kind: Middleware
+  metadata:
+    name: redirect-to-https
+  spec:
+    redirectScheme:
+      scheme: https
+      permanent: true
+  ---
+  # Add Secure HTTP Headers
+  apiVersion: traefik.io/v1alpha1
+  kind: Middleware
+  metadata:
+    name: security-headers
+  spec:
+    headers:
+      browserXssFilter: true
+      contentTypeNosniff: true
+      frameDeny: true
+      sslRedirect: true
+      stsSeconds: 31536000
+      stsIncludeSubdomains: true
+      stsPreload: true
+      referrerPolicy: "no-referrer"
+      customFrameOptionsValue: "SAMEORIGIN"
+  ---
+  # Rate Limiting
+  apiVersion: traefik.io/v1alpha1
+  kind: Middleware
+  metadata:
+    name: rate-limit
+  spec:
+    rateLimit:
+      average: 100
+      burst: 50
+  ```
+
+{:start="9"}
+9. Create an Ingress with websecure entrypoint and reference the Certificate
 
   ```yaml
   apiVersion: networking.k8s.io/v1
@@ -138,8 +191,9 @@ Prerequisites:
     name: zhf-tls-ingress
     annotations:
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
-      # You would use below annotation with a Traefik Middleware object if you couldn't enforce HTTPS redirection from DNS level (like I am with CloudFlare)
-      # traefik.ingress.kubernetes.io/router.middlewares: redirect-https@kubernetescrd
+      # You would use below annotation with a Traefik Middleware object:
+      #
+      # traefik.ingress.kubernetes.io/router.middlewares: secure-middleware@kubernetescrd
   spec:
     ingressClassName: traefik
     rules:
@@ -159,15 +213,15 @@ Prerequisites:
           - zhf.danielstanecki.com
 ```
 
-{:start="9"}
-9. Apply the objects and the cert will be issued automatically and begin DNS-01 Challenge which can take a few minutes. 
+{:start="10"}
+10. Apply the objects and the cert will be issued automatically and begin DNS-01 Challenge which can take a few minutes. 
 
   ```bash
   watch kubectl get challenges -n kube-system
   ```
 
-{:start="10"}
-10. Configure CloudFlare Tunnel
+{:start="11"}
+11. Configure CloudFlare Tunnel
 - Point your domain to https://traefik.default.svc.cluster.local:443 (if in default namespace)
 - Specify Origin Server Name, NO TLS Verify, enable HTTP2 since that's fully supported by Traefik
 - Enforce "Always Use HTTPS"
@@ -175,6 +229,6 @@ Prerequisites:
 ![/assets/cloudflareTunnelConfig.png](/assets/cloudflareTunnelConfig.png)
 
 {:start="11"}
-11. If done right, your web application will serve over HTTPS only. 
+12. If done right, your web application will serve over HTTPS only. 
 
 ![/assets/zhfCert.png](/assets/zhfCert.png)

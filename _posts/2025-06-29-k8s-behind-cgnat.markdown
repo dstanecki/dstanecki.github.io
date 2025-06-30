@@ -6,7 +6,7 @@ categories: projects
 ---
 A step-by-step guide to serving a Kubernetes app over HTTPS using Traefik, cert-manager, and Cloudflare Tunnel — **without a public IP**, on bare metal Raspberry Pis.
 
-![serverRack.jpg](serverRack.jpg)
+![/assets/serverRack.jpg](/assets/serverRack.jpg)
 |:--:| 
 | *My Raspberry Pi Server Rack* |
 

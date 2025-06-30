@@ -9,6 +9,6 @@ My name is Daniel Stanecki and I'm a Chicago-based DevOps Engineer specializing 
 
 Check out my GitHub to see what I've been working on lately: [https://github.com/dstanecki](https://github.com/dstanecki)
 {% raw %}
-<script src="main.js"></script>
+<script src="/assets/js/main.js"></script>
 <p id="visitors">&nbsp;</p>
 {% endraw %}

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Exposing a K8s App Behind CGNAT on a Multi-Node, Bare-metal Raspberry Pi Cluster"
+title:  "Exposing a K8s App Behind CGNAT on a Multi-Node, Bare Metal Raspberry Pi Cluster"
 date:   2025-06-29 00:00:00 -0500
 categories: projects
 ---
@@ -49,24 +49,24 @@ Prerequisites:
 - CloudFlare account
 - Domain name (mine is in AWS Route 53)
 
-1. Install the cloudflared agent and follow tunnel setup instructions from the [docs](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-remote-tunnel/). You can specify the number of replicas, ensure that you have them spread across your nodes using antiAffinity rules for HA multi-node clusters.
+1. Install the cloudflared agent and follow tunnel setup instructions from the [docs](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-remote-tunnel/). You can specify the number of replicas, ensure that you have enough across different nodes for HA -- ideally using antiAffinity rules. 
 
 {:start="2"}
-2. Associate your domain with the tunnel and make sure that your domain nameservers are delegated to CloudFlare's servers. Point your CNAME record to <TUNNEL_ID>.cfargotunnel.com 
+2. Associate your domain with the tunnel and make sure that your domain nameservers are delegated to CloudFlare's servers. Point your CNAME record to TUNNEL_ID.cfargotunnel.com 
 
 {:start="3"}
-3. Internal app-service needs to be ClusterIP (as opposed to NodePort which is what I was using to expose my app internally. I'm going to make this configurable via Helm)
+3. Internal app-service needs to be ClusterIP (as opposed to NodePort which is what I was using to expose my app internally)
 
 {:start="4"}
-4. Create a Route 53 service account with proper IAM permissions (will be used with the DNS01 Challenge)
+4. Create a Route 53 service account with proper IAM permissions (will be used for the DNS-01 Challenge)
 
 {:start="5"}
 5. Copy the access keys and create a kubectl secret 
 
   ```bash
   kubectl create secret generic route53-credentials-secret \
-    --from-literal=access-key-id=<access-key> \
-    --from-literal=secret-access-key=<secret-access-key> \
+    --from-literal=access-key-id=<ACCESS-KEY> \
+    --from-literal=secret-access-key=<SECRET-ACCESS-KEY> \
     --namespace cert-manager
   ```
 

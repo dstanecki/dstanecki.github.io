@@ -22,7 +22,7 @@ title: Daniel Stanecki's Blog
 author: Daniel Stanecki
 email: staneckidaniel@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Detailing my personal projects and sharing useful resources. |
+  Detailing my personal projects and sharing useful resources |
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://www.danielstanecki.com" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  dstanecki

@@ -1,12 +1,10 @@
 ---
 layout: post
-title:  "Helm: Managing My Dev and Prod Environments in Kubernetes"
+title:  "Helm: Managing My Dev and Prod Environments in K3s"
 date:   2025-07-03 00:00:00 -0500
 categories: projects
 ---
-I'd been deploying my [Zillow Housing Forecast application](https://github.com/dstanecki/zillow-housing-forecast/) using the traditional **kubectl apply -f** method. Now that I'd created two types of deployment YAMLs--single node and double node--it was time to package it into a Helm chart and parameterize some variables. 
-
-I did this while setting up my dev/staging environment which is almost 1:1 with my "prod" environment, save for the hostname, image pull policy, and container tags.<!--break-->
+I'd been deploying my [Zillow Housing Forecast application](https://github.com/dstanecki/zillow-housing-forecast/) using the traditional **kubectl apply -f** method. Now that I'd created different types of deployment YAMLs (single node, multi-node, dev/prod), it was time to package and organize these into a Helm chart. I did this while setting up my dev/staging environment which is almost 1:1 with my "prod" environment, save for the hostname, image pull policy, and container tags.<!--break-->
 
 ### **Installing Helm on K3s**
 
@@ -14,8 +12,7 @@ Important to note that k3s stores the kubeconfig file at /etc/rancher/k3s/k3s.ya
 
 ```bash
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-
-# Persist on reboot, note >> appends to the end of file and > would overwrite it
+# Persist on reboot:
 echo 'KUBECONFIG=/etc/rancher/k3s/k3s.yaml' >> ~/.bashrc 
 ```
 

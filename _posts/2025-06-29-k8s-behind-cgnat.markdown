@@ -51,12 +51,12 @@ Prerequisites:
 - Traefik
 - cert-manager (kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.18.0/cert-manager.yaml)
 - CloudFlare account
-- Domain name (mine is in AWS Route 53)
+- Domain name delegated to CloudFlare nameservers
 
 1. Install the cloudflared agent and follow tunnel setup instructions from the [docs](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-remote-tunnel/). You can specify the number of replicas, ensure that you have enough across different nodes for HA -- ideally using antiAffinity rules. 
 
 {:start="2"}
-2. Associate your domain with the tunnel and make sure that your domain nameservers are delegated to CloudFlare's servers. Point your CNAME record to TUNNEL_ID.cfargotunnel.com 
+2. Associate your domain with the tunnel and make sure that your domain nameservers are delegated to CloudFlare's servers.
 
 {:start="3"}
 3. Internal app-service needs to be ClusterIP (as opposed to NodePort which is what I was using to expose my app internally), and Traefik service needs configuration as follows:
@@ -73,16 +73,15 @@ Prerequisites:
   ```
   
 {:start="4"}
-4. Create a Route 53 service account with proper IAM permissions (will be used for the DNS-01 Challenge)
+4. Create a CloudFlare API Token with Zone:DNS:Edit permission for your domain (will be used for the DNS-01 Challenge)
 
 {:start="5"}
 5. Copy the access keys and create a kubectl secret 
 
   ```bash
-  kubectl create secret generic route53-credentials-secret \
-    --from-literal=access-key-id=<ACCESS-KEY> \
-    --from-literal=secret-access-key=<SECRET-ACCESS-KEY> \
-    --namespace cert-manager
+  kubectl create secret generic cloudflare-api-token-secret \
+    --from-literal=api-token=<your-token> \
+    -n cert-manager
   ```
 
 {:start="6"}  
@@ -101,15 +100,10 @@ Prerequisites:
         name: letsencrypt-prod
       solvers:
       - dns01:
-          route53:
-            region: us-east-1
-            hostedZoneID: <HOSTED ZONE ID>
-            accessKeyIDSecretRef:
-              name: route53-credentials-secret
-              key: access-key-id
-            secretAccessKeySecretRef:
-              name: route53-credentials-secret
-              key: secret-access-key
+        cloudflare:
+          apiTokenSecretRef:
+            name: cloudflare-api-token-secret
+            key: api-token
   ```
 
 {:start="7"}

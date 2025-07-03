@@ -1,10 +1,12 @@
 ---
 layout: post
-title:  "Packaging my Zillow Housing Forecast app into a Helm Chart on K3s"
-date:   2025-06-26 00:00:00 -0500
+title:  "Helm: Managing My Dev and Prod Environments in Kubernetes"
+date:   2025-07-03 00:00:00 -0500
 categories: projects
 ---
-I'd been deploying my [Zillow Housing Forecast application](https://github.com/dstanecki/zillow-housing-forecast/) using the traditional **kubectl apply -f** method. Now that I'd created two types of deployment YAMLs--single node and double node--it was time to package it into a Helm chart and parameterize some variables.<!--break-->
+I'd been deploying my [Zillow Housing Forecast application](https://github.com/dstanecki/zillow-housing-forecast/) using the traditional **kubectl apply -f** method. Now that I'd created two types of deployment YAMLs--single node and double node--it was time to package it into a Helm chart and parameterize some variables. 
+
+I did this while setting up my dev/staging environment which is almost 1:1 with my "prod" environment, save for the hostname, image pull policy, and container tags.<!--break-->
 
 ### **Installing Helm on K3s**
 
@@ -14,10 +16,10 @@ Important to note that k3s stores the kubeconfig file at /etc/rancher/k3s/k3s.ya
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 
 # Persist on reboot, note >> appends to the end of file and > would overwrite it
-export 'KUBECONFIG=/etc/rancher/k3s/k3s.yaml' >> ~/.bashrc 
+echo 'KUBECONFIG=/etc/rancher/k3s/k3s.yaml' >> ~/.bashrc 
 ```
 
-### **Helm Chart for my Zillow Housing Forecast Application**
+### **Parametizing replicas and setting pod affinity rules**
 
 I started by creating the chart scaffold and copying over my definition YAMLs to the templates/ directory (excluding my namespace definition file). I also removed the namespace lines in my YAMLs because I want Helm to handle it when it's deployed via CLI. 
 
@@ -26,23 +28,21 @@ Since my idea is to separate single-node deployments from multi-node deployments
 This is a snippet of my frontend app deployment and I also have a similar setup for my DB deployment. I'm setting the default deployment to be 1 replica and I'm making the assumption that any user installing 1 replica does not require pod affinity rules. If the replica count is **greater than** 1, then I'm applying soft anti-affinity rules so that the pods will prefer to spread out across nodes.
 
 {% raw %}
-```bash
+```yaml
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       io.kompose.service: app
+      environment: {{ .Values.environment }}
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert
-        kompose.service.type: nodeport
-        kompose.version: 1.34.0 (cbf2835db)
       labels:
         io.kompose.service: app
+        environment: {{ .Values.environment }}
     spec:
-      {{- if gt (int (default 1 .Values.replicaCount)) 1}}
       # Spread pods across nodes if running multiple replicas
+      {{- if gt (int (default 1 .Values.replicaCount)) 1}}
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -56,6 +56,80 @@ spec:
                         - app
                 topologyKey: kubernetes.io/hostname
       {{- end}}
+```
+{% endraw %}
+
+### **values.yaml for dev and prod**
+
+I've set up 2 values files for each deployment with some key differences. I'm using the "Always" pull policy for dev to ensure that the latest container is pulled on every deployment. For prod, I'll be updating the container image much less frequently and prefer to have a stable "IfNotPresent" policy to optimize rollout times. 
+
+**DEV**
+{% raw %}
+```yaml
+replicaCount: 2 # For 1:1 match with prod. But if I eventually run into resource constrictions, then I'll make it 1 on dev
+
+# Monitoring
+monitoring:
+  enabled: true
+  prometheusRelease: prometheus
+
+# Specify dev or prod
+environment: "dev"
+
+# This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
+appImage:
+  repository: dstanecki/zhf
+  pullPolicy: Always
+  tag: "latest"
+
+dbImage:
+  repository: dstanecki/zhf-mariadb
+  pullPolicy: Always
+  tag: "latest"
+```
+{% endraw %}
+
+**PROD**
+{% raw %}
+```yaml
+replicaCount: 2
+
+# Monitoring
+monitoring:
+  enabled: true
+  prometheusRelease: prometheus
+
+# Specify dev or prod
+environment: "prod"
+
+# This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
+appImage:
+  repository: dstanecki/zhf
+  pullPolicy: IfNotPresent
+  tag: "v1.0.0"
+
+dbImage:
+  repository: dstanecki/zhf-mariadb
+  pullPolicy: IfNotPresent
+  tag: "v1.0.0"
+```
+{% endraw %}
+
+### **Helper template**
+
+I'm using a helper template to handle my hostname variable which is repeated frequently. 
+{% raw %}
+```yaml
+{{/*
+Return the correct hostname based on the environment.
+*/}}
+{{- define "zhf.hostname" -}}
+{{- if eq .Values.environment "prod" -}}
+zhf.danielstanecki.com
+{{- else -}}
+zhf-dev.danielstanecki.com
+{{- end -}}
+{{- end -}}
 ```
 {% endraw %}
 
@@ -90,3 +164,5 @@ Notes
     - helm package zhf-chart
     - helm install <releaseName> ./zhf-chart-<version>.tgz
 ```
+- Helm renders out {{ }} as whitespace which can cause empty lines
+  - To fix, use {{- if eq ....}} and the hyphen will signal to NOT create an empty whitespace line

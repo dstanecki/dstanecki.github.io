@@ -6,7 +6,7 @@ categories: projects
 ---
 An end-to-end practical guide for setting up prometheus-flask-exporter to measure HTTP metrics and custom counters.<!--break-->
 
-## kube-prometheus-stack Installation
+## **kube-prometheus-stack Installation**
 
 ```bash
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -33,7 +33,7 @@ kubectl port-forward svc/prometheus-operated 9090:9090 -n monitoring
 curl http://localhost:9090/metrics
 ```
 
-## Expose /metrics on Flask with prometheus_flask_exporter
+## **Expose /metrics on Flask with prometheus_flask_exporter**
 
 **Make sure that debug mode is disabled in your application code, or else prometheus_flask_exporter will NOT work.** It'll give a 404 error because debug mode uses a reloader by default, so that the code runs in a new process and not the parent process. However, only the parent process is being scraped. If you do need to use debug mode, you can disable the reloader. 
 
@@ -92,7 +92,7 @@ The following metrics are exported by default and you will see them if you curl 
 |:--:| 
 | *Example of my custom counter being incremented by a database call* |
 
-## Grafana set up
+## **Grafana set up**
 
 kube-prometheus-stack already configures a default Prometheus source for you using DNS. 
 
@@ -100,6 +100,6 @@ Something to note about the Prometheus ServiceMonitor object is that it monitors
 
 ![/assets/sumForecastRequestTotal.png](/assets/sumForecastRequestTotal.png)
 
-## Final Thoughts 
+## **Final Thoughts**
 
 I'm just barely scraping the surface here and I'm interested in seeing how deep it goes. I want to set up a cohesive monitoring solution and identify points of failure -- what happens if my app receives too much traffic? How much is too much? How can I simulate that and how far can I autoscale on just my 2 raspberry pis? 

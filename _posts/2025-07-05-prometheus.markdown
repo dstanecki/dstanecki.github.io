@@ -15,7 +15,11 @@ kubectl create ns monitoring
 
 # I'm using --set flags to expose Prometheus/Grafana on a NodePort
 # Be aware of the security implications if you do this
-helm install prometheus prometheus-community/kube-prometheus-stack -n monitoring --set prometheus.service.type=NodePort --set prometheus.service.nodePort=30090 --set grafana.service.type=NodePort --set grafana.service.nodePort=30030
+helm install prometheus prometheus-community/kube-prometheus-stack -n monitoring \
+  --set prometheus.service.type=NodePort \
+  --set prometheus.service.nodePort=30090 \
+  --set grafana.service.type=NodePort \
+  --set grafana.service.nodePort=30030
 ```
 
 **Verify Prometheus is working**
@@ -84,7 +88,7 @@ The following metrics are exported by default and you will see them if you curl 
 
 - flask_exporter_info (Gauge) Information about the Prometheus Flask exporter itself (e.g. version).
 
-| ![/assets/promCustomCounter.png](/assets/promCustomCounter.png){: width="350" } |
+| ![/assets/promCustomCounter.png](/assets/promCustomCounter.png){: width="550" } |
 |:--:| 
 | *Example of my custom counter being incremented by a database call* |
 

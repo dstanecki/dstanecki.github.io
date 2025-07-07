@@ -52,6 +52,23 @@ Add "metrics" port definition to the service spec:
     targetPort: 9100 
 ```
 
+(If using k3s default deployment of Traefik): k3s service reboots will reload the default Traefik config unless you add a HelmChartConfig object to persist changes. This can be added to /var/lib/rancher/k3s/server/manifests and k3s will automatically detect and apply it:
+
+```yaml
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    service:
+      ports:
+        metrics:
+          port: 9100
+          targetPort: 9100
+          nodePort: 30310
+```
+
 ## **Step 3: Create a ServiceMonitor**
 
 This step assumes you're using the PrometheusOperator which is included in the prometheus-kube-stack Helm chart. The ServiceMonitor must exist in the same namespace as your Traefik service (usually kube-system): 

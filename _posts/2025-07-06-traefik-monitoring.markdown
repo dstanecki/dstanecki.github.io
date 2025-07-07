@@ -1,14 +1,13 @@
 ---
 layout: post
-title:  "Monitor Traefik in Kubernetes with Prometheus and Grafana"
-date:   2025-07-06 00:00:00 -0500
+title:  "Monitor Traefik Ingress Controller in Kubernetes with Prometheus and Grafana"
+date:   2025-07-07 00:00:00 -0500
 categories: projects
 ---
 Simple, step-by-step guide to configure Traefik monitoring in Kubernetes using Prometheus and Grafana.<!--break-->
 
 **Prerequisites:**
 Ensure the following are already installed and running in your cluster:
-
 - Traefik
 - Prometheus
 - Grafana

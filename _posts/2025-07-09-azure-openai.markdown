@@ -215,7 +215,7 @@ We can use Redis to both cache AI responses and limit client requests. I'm using
 
     ```yaml
           containers:
-        - env:
+          - env:
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -280,7 +280,7 @@ You'll also notice in my live demo that duplicate ZIP entries load instantly and
 
 Another preventative measure I can put in place is a session limit. This means that if users exceed a certain number of results stored on their client side, they will be required to click my "Clear Results" button (delete session and subsequently be required to reCAPTCHA again). 
 
-    ```python 
+    ```python
     @app.route('/example', methods=['POST'])
     @limiter.limit("6 per minute")
     def example():

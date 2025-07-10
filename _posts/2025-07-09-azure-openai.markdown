@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Azure AI + Grounding with Bing: How to integrate it into Python, finetune responses, and optimize costs (Redis Cache)"
+title:  "A Practical Guide to Azure AI + Bing Grounding in Python: Prompt Tuning, Cost Control, and Redis Caching"
 date:   2025-07-09 00:00:00 -0500
 categories: projects
 ---

@@ -6,11 +6,8 @@ categories: projects
 ---
 Guide to implement Azure AI agents into your Python app, selecting the right AI model for your use case, finetuning prompts, and optimizing with Redis. Includes a full cost analysis section with practical cost mitigation strategies. Live demo: [zhf.danielstanecki.com](https://zhf.danielstanecki.com)<!--break-->
 
+# Table of Contents
 
----
-
-
-## Table of Contents
 - [Project Overview](#project-overview)
 - [Cost Overview](#cost-overview-important)
 - [About Grounding with Bing](#about-grounding-with-bing)
@@ -19,10 +16,6 @@ Guide to implement Azure AI agents into your Python app, selecting the right AI 
 - [GPT-4 Engine Comparison](#gpt-4-engines-in-depth-comparison)
 - [Cost Analysis](#cost-analysis)
 - [Cost Optimization Strategies (Rate Limiting, Redis Caching, CAPTCHA)](#cost-optimization-strategies-rate-limiting-redis-caching-captcha)
-
-
---- 
-
 
 # Project Overview
 
@@ -33,10 +26,6 @@ GitHub repo: [https://github.com/dstanecki/zillow-housing-forecast](https://gith
 **Prerequisites:**
 - Existing Python app
 - Azure account
-
-
---- 
-
 
 # Cost Overview (Important)
 
@@ -49,19 +38,11 @@ This setup includes two main components that incur **per-use costs**:
 
 ⚠️ If your app is public-facing, you **must** implement protections (e.g., rate limits, CAPTCHA) to avoid surprise costs, which I cover below.
 
-
---- 
-
-
 # About Grounding with Bing
 
 Grounding with Bing addresses the major limitation seen with OpenAI's (ChatGPT) API: not being able to browse the internet. To be clear, the ChatGPT **app** can, but it's just the API that cannot. The API on its own has a knowledge cutoff of roughly 1 year ago, and is not up to date on current topics.
 
 Azure AI agents allow you to use the ChatGPT models as an API and connect them to Bing for up-to-date knowledge.
-
-
----
-
 
 # How to Set Up Azure AI + Grounding with Bing
 
@@ -99,10 +80,6 @@ Back in ai.azure.com, navigate to Agents in the left sidebar and add a Knowledge
 
 Then select your newly created Grounding with Bing resource. 
 
-
---- 
-
-
 # How to Finetune AI Prompts
 
 Knowing how to optimally enter AI prompts is a lot more important than most people realize. Especially when your app is hinging on the AI's ability to scrape the web for up-to-date and comprehensive information. Check out my test in the GPT-4.1-nano playground. At first I was only pulling the ZIP code and forecast % to use in my prompt, which resulted in a generic and inaccurate response:
@@ -118,10 +95,6 @@ Knowing how to optimally enter AI prompts is a lot more important than most peop
 | *Improved prompt* |
 
 The same principles apply to the AI system instructions (shown in the next section).
-
-
---- 
-
 
 # GPT-4 Engines In-Depth Comparison
 
@@ -174,10 +147,6 @@ It's no surprise that the full 4.1 engine offers the best explanations. I partic
 
 That being said, I think that the mini engine gets 85% of the way there while costing a fifth of the price and having half as long loading times. As for the nano, its responses were too generic for my use case.
 
-
---- 
-
-
 # Cost Analysis
 
 AI agents are priced per 1 million tokens. 1 token equals roughly 3/4 of a word. My input prompt above uses roughly 100 tokens and the outputs also use about 100. 
@@ -192,10 +161,6 @@ For an avg of 100 input tokens and 100 output tokens, assuming no cache:
 - GPT-4.1-nano: $35.04
 
 Yes you read that right. The AI agent cost is negligible compared to that $35 Grounding tax.
-
-
---- 
-
 
 # Cost Optimization Strategies (Rate Limiting, Redis Caching, CAPTCHA)
 

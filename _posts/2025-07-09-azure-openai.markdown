@@ -8,8 +8,7 @@ Guide to implement Azure AI agents into your Python app, selecting the right AI 
 
 # Table of Contents
 
-- [Project Overview](#project-overview)
-- [Cost Overview](#cost-overview-important)
+- [Project & Cost Overview](#project--cost-overview)
 - [About Grounding with Bing](#about-grounding-with-bing)
 - [Set Up Azure AI + Bing](#how-to-set-up-azure-ai--grounding-with-bing)
 - [Finetuning AI Prompts](#how-to-finetune-ai-prompts)

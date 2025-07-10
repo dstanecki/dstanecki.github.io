@@ -34,7 +34,7 @@ This setup includes two main components that incur **per-use costs**:
 | **Azure AI Agent**       | ~$0.60–$10 per 1M tokens            | Depends on engine (GPT-4.1-nano, mini, full). See full breakdown below. |
 | **Grounding with Bing**  | **$35 per 1,000 requests**          | Flat fee, **charged on top** of AI agent usage.                       |
 
-⚠️ If your app is public-facing, you **must** implement protections (e.g., rate limits, CAPTCHA) to avoid surprise costs, which I talk about later.
+⚠️ If your app is public-facing, you **must** implement protections (e.g., rate limits, CAPTCHA) to avoid surprise costs, which I cover below.
 
 ## About Grounding with Bing
 
@@ -43,6 +43,8 @@ Grounding with Bing addresses the major limitation seen with OpenAI's (ChatGPT) 
 Azure AI agents allow you to use the ChatGPT models as an API and connect them to Bing for up-to-date knowledge.
 
 # **How to Set Up Azure AI + Grounding with Bing**
+
+---
 
 The setup is a bit confusing because you need to create the AI agent in the Azure AI Foundry portal, and then in the separate, normal Azure portal you need to create the  "Grounding" resource (under the "Bing Resource" section https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/bing-grounding). 
 
@@ -80,21 +82,25 @@ Then select your newly created Grounding with Bing resource.
 
 # **How to Finetune AI Prompts**
 
+---
+
 Knowing how to optimally enter AI prompts is a lot more important than most people realize. Especially when your app is hinging on the AI's ability to scrape the web for up-to-date and comprehensive information. Check out my test in the GPT-4.1-nano playground. At first I was only pulling the ZIP code and forecast % to use in my prompt, which resulted in a generic and inaccurate response:
 
-| ![/assets/genericPrompt](/assets/genericPrompt.png){: width="750" } |
+| ![/assets/genericPrompt](/assets/genericPrompt.png){: width="900" } |
 |:--:| 
 | *Generic prompt* |
 
 60805 is not even in Chicago and the rest of the answer is egregiously bland. So I decided to see what happened if I pulled as many values as possible from my dataset (city name, state, date, metro area, county) and ask the AI for a clear outcome: 2-3 key reasons why the forecast is -0.90%, based on trends **specific to the region**. By giving the AI as much data to go off of as possible, and stating a clear and desired outcome, I got a much better response:
 
-| ![/assets/finetunedPrompt](/assets/finetunedPrompt.png){: width="750" } |
+| ![/assets/finetunedPrompt](/assets/finetunedPrompt.png){: width="900" } |
 |:--:| 
 | *Improved prompt* |
 
 The same principles apply to the AI system instructions (shown in the next section).
 
 # **GPT-4 Engines In-Depth Comparison**
+
+---
 
 I'm going to focus on the GPT-4.1 series as these models seem to be the leaders in general knowledge base and understanding user intent.
 - GPT-4.1
@@ -105,16 +111,25 @@ To demonstrate the differences in response, I've deployed each version and conne
 
 ```
 # Instructions
-You are a real estate analyst who specializes in regional housing trends. Your answers are short but highly specific to the ZIP code, city, and regional context given. Avoid repeating generic causes like 'interest rates' unless clearly relevant.
+You are a real estate analyst who specializes in regional housing trends. 
+Your answers are short but highly specific to the ZIP code, city, and regional context given. 
+Avoid repeating generic causes like 'interest rates' unless clearly relevant.
 
 # Prompt 1
-Home values in ZIP code 06103 are forecasted to change by 3.4% from 05-31-2025 to one year later. This area includes Hartford, CT within the Hartford-East Hartford-Middletown, CT metro in Hartford county. In a short paragraph, give a concise explanation (2–3 key reasons) why this change is expected, based on local housing or economic trends specific to this region.
+Home values in ZIP code 06103 are forecasted to change by 3.4% from 05-31-2025 to 
+one year later. This area includes Hartford, CT within the 
+Hartford-East Hartford-Middletown, CT metro in Hartford county. In a short paragraph, 
+give a concise explanation (2–3 key reasons) why this change is expected, 
+based on local housing or economic trends specific to this region.
 
 # Prompt 2
-Home values in ZIP code 29702 are forecasted to change by -5.7% from 05-31-2025 to one year later. This area includes Blacksburg, SC, within the Gaffney metro area in Cherokee County. In a short paragraph, give a concise explanation (2–3 key reasons) why this change is expected, based on local housing or economic trends specific to this region.
+Home values in ZIP code 29702 are forecasted to change by -5.7% from 05-31-2025 to 
+one year later. This area includes Blacksburg, SC, within the Gaffney metro area 
+in Cherokee County. In a short paragraph, give a concise explanation (2–3 key reasons) 
+why this change is expected, based on local housing or economic trends specific to this region.
 ```
 
-### **Prompt 1**
+### **Prompt 1 responses**
 
 **GPT-4.1:** Home values in ZIP code 06103 are projected to rise by 3.4% due to continued revitalization of downtown Hartford, which has attracted new employers and residents, boosting demand for centrally located housing. Additionally, limited new construction and a relatively low housing inventory in the city core are sustaining upward pressure on prices despite broader metro area affordability concerns.
 
@@ -122,7 +137,7 @@ Home values in ZIP code 29702 are forecasted to change by -5.7% from 05-31-2025 
 
 **4.1-nano:** The forecasted 3.4% increase in home values in ZIP code 06103 is driven by steady demand from Connecticut’s government and healthcare sectors, which dominate the local economy. Additionally, limited new housing development and constrained inventory in Hartford support upward pressure on property prices.
 
-### **Prompt 2**
+### **Prompt 2 responses**
 
 **GPT-4.1:** Home values in ZIP code 29702 (Blacksburg, SC) are forecasted to decline by -5.7% over the next year, largely due to sluggish local job growth and an increase in housing inventory. The Gaffney metro area has seen several new residential developments, which, combined with slower population growth and limited in-migration, has led to more homes on the market than buyers. Additionally, regional manufacturing layoffs have dampened buyer demand, putting further downward pressure on home prices.
 
@@ -137,6 +152,8 @@ It's no surprise that the full 4.1 engine offers the best explanations. I partic
 That being said, I think that the mini engine gets 85% of the way there while costing a fifth of the price and having half as long loading times. As for the nano, its responses were too generic for my use case.
 
 # **Cost Analysis & Optimization Strategies (Rate Limiting, Redis Caching, CAPTCHA)**
+
+---
 
 AI agents are priced per 1 million tokens. 1 token equals roughly 3/4 of a word. My input prompt above uses roughly 100 tokens and the outputs also use about 100. 
 

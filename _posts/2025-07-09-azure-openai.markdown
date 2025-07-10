@@ -166,7 +166,7 @@ Yes you read that right. The AI agent cost is negligible compared to that $35 Gr
 
 Maybe your public app gains an unexpected amount of traction. Maybe a malicious actor writes a script to spam API calls and rack up some serious bills. Whatever the case may be, it is of utmost importance to implement prevention measures and maintain excellent observability and alerting practices.
 
-### *Azure Budget alerts**
+### **Azure Budget alerts**
 
 The most important and obvious one. In Azure Portal navigate to Cost Management + Billing > Budgets > Add.
 

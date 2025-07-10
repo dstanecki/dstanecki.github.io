@@ -48,17 +48,17 @@ Azure AI agents allow you to use the ChatGPT models as an API and connect them t
 
 The setup is a bit confusing because you need to create the AI agent in the Azure AI Foundry portal, and then in the separate, normal Azure portal you need to create the  "Grounding" resource (under the "Bing Resource" section https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/bing-grounding). 
 
-#### **Step 1: Create a Foundry account + project**
+**Step 1: Create a Foundry account + project**
 
 Navigate to https://ai.azure.com and create an account. On the Overview page, select "Create new" > Azure AI Foundry resource and follow the prompts to create a project. **Not all regions are compatible with AI agents.** I'm using US East 2. 
 
-#### **Step 2: Create a Model deployment**
+**Step 2: Create a Model deployment**
 
 Navigate to "Models + endpoints" in the sidebar and Deploy model. Here you have the option to choose the Deployment type (Global Standard, Data Zone Standard, etc.). That's explained in detail [here](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/concepts/deployment-types). Global Standard is pay-as-you-go and has the lowest price per-token so I'm going with that. My app is a live demo with low overall traffic so I don't need to provision throughput in advance. 
 
 **Important:** The default tokens per minute rate limit is 50K (the max). This is where you should calculate how much usage your app will see and set an appropriate limit. In the Python API call, you can pass an argument specifying a token limit. Depending on the engine you plan to use (o4-nano, o4-mini, GPT-4o, etc.), this number will vary, but for short paragraph responses in GPT-4o, 300 tokens is a generous allocation. If I have 2 users each triggering a request 6x/min and consuming 300 tokens per request, that's 4,000 tokens per minute and I reckon that's enough for my use case. More on this later. 
 
-#### **Step 3: Open in Playground**
+**Step 3: Open in Playground**
 
 Select Open in Playground: 
 
@@ -66,13 +66,13 @@ Select Open in Playground:
 
 This will also generate an agent automatically. 
 
-#### **Step 4: Create Grounding with Bing resource**
+**Step 4: Create Grounding with Bing resource**
 
 Navigate to the regular portal.azure.com > Bing Resources and add a Grounding with Bing Search:
 
 ![createGrounding.png](/assets/createGrounding.png)
 
-#### **Step 5: Create the Knowledge Connection**
+**Step 5: Create the Knowledge Connection**
 
 Back in ai.azure.com, navigate to Agents in the left sidebar and add a Knowledge connection:
 

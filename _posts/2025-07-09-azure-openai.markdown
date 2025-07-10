@@ -50,13 +50,13 @@ The setup is a bit confusing because you need to create the AI agent in the Azur
 
 **Step 1: Create a Foundry account + project**
 
-Navigate to https://ai.azure.com and create an account. On the Overview page, select "Create new" > Azure AI Foundry resource and follow the prompts to create a project. **Not all regions are compatible with AI agents.** I'm using US East 2. 
+Navigate to https://ai.azure.com and create an account. On the Overview page, select "Create new" > Azure AI Foundry resource and follow the prompts to create a project. Not all regions are compatible with AI agents!! I'm using US East 2. 
 
 **Step 2: Create a Model deployment**
 
 Navigate to "Models + endpoints" in the sidebar and Deploy model. Here you have the option to choose the Deployment type (Global Standard, Data Zone Standard, etc.). That's explained in detail [here](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/concepts/deployment-types). Global Standard is pay-as-you-go and has the lowest price per-token so I'm going with that. My app is a live demo with low overall traffic so I don't need to provision throughput in advance. 
 
-**Important:** The default tokens per minute rate limit is 50K (the max). This is where you should calculate how much usage your app will see and set an appropriate limit. In the Python API call, you can pass an argument specifying a token limit. Depending on the engine you plan to use (o4-nano, o4-mini, GPT-4o, etc.), this number will vary, but for short paragraph responses in GPT-4o, 300 tokens is a generous allocation. If I have 2 users each triggering a request 6x/min and consuming 300 tokens per request, that's 4,000 tokens per minute and I reckon that's enough for my use case. More on this later. 
+The default tokens per minute rate limit is 50K (the max). This is where you should calculate how much usage your app will see and set an appropriate limit. In the Python API call, you can pass an argument specifying a token limit. Depending on the engine you plan to use (o4-nano, o4-mini, GPT-4o, etc.), this number will vary, but for short paragraph responses in GPT-4o, 300 tokens is a generous allocation. If I have 2 users each triggering a request 6x/min and consuming 300 tokens per request, that's 4,000 tokens per minute and I reckon that's enough for my use case. More on this later. 
 
 **Step 3: Open in Playground**
 
@@ -86,13 +86,13 @@ Knowing how to optimally enter AI prompts is a lot more important than most peop
 
 | ![/assets/genericPrompt](/assets/genericPrompt.png) |
 |:--:| 
-| *Generic prompt* |
+| *GENERIC PROMPT* |
 
 60805 is not even in Chicago and the rest of the answer is egregiously bland. So I decided to see what happened if I pulled as many values as possible from my dataset (city name, state, date, metro area, county) and ask the AI for a clear outcome: 2-3 key reasons why the forecast is -0.90%, based on trends **specific to the region**. By giving the AI as much data to go off of as possible, and stating a clear and desired outcome, I got a much better response:
 
 | ![/assets/finetunedPrompt](/assets/finetunedPrompt.png) |
 |:--:| 
-| *Improved prompt* |
+| *IMPROVED PROMPT* |
 
 The same principles apply to the AI system instructions (shown in the next section).
 
@@ -108,8 +108,9 @@ To demonstrate the differences in response, I've deployed each version and conne
 ```
 # Instructions
 You are a real estate analyst who specializes in regional housing trends. 
-Your answers are short but highly specific to the ZIP code, city, and regional context given. 
-Avoid repeating generic causes like 'interest rates' unless clearly relevant.
+Your answers are short but highly specific to the ZIP code, city, 
+and regional context given. Avoid repeating generic causes 
+like 'interest rates' unless clearly relevant.
 
 # Prompt 1
 Home values in ZIP code 06103 are forecasted to change by 3.4% from 05-31-2025 to 
@@ -121,8 +122,9 @@ based on local housing or economic trends specific to this region.
 # Prompt 2
 Home values in ZIP code 29702 are forecasted to change by -5.7% from 05-31-2025 to 
 one year later. This area includes Blacksburg, SC, within the Gaffney metro area 
-in Cherokee County. In a short paragraph, give a concise explanation (2–3 key reasons) 
-why this change is expected, based on local housing or economic trends specific to this region.
+in Cherokee County. In a short paragraph, give a 
+concise explanation (2–3 key reasons) why this change is expected, based on local 
+housing or economic trends specific to this region.
 ```
 
 ### Prompt 1 responses

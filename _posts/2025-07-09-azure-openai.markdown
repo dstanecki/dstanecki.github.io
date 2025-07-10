@@ -44,8 +44,6 @@ Azure AI agents allow you to use the ChatGPT models as an API and connect them t
 
 # **How to Set Up Azure AI + Grounding with Bing**
 
----
-
 The setup is a bit confusing because you need to create the AI agent in the Azure AI Foundry portal, and then in the separate, normal Azure portal you need to create the  "Grounding" resource (under the "Bing Resource" section https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/bing-grounding). 
 
 ### Step 1: Create a Foundry account + project
@@ -82,8 +80,6 @@ Then select your newly created Grounding with Bing resource.
 
 # **How to Finetune AI Prompts**
 
----
-
 Knowing how to optimally enter AI prompts is a lot more important than most people realize. Especially when your app is hinging on the AI's ability to scrape the web for up-to-date and comprehensive information. Check out my test in the GPT-4.1-nano playground. At first I was only pulling the ZIP code and forecast % to use in my prompt, which resulted in a generic and inaccurate response:
 
 | ![/assets/genericPrompt](/assets/genericPrompt.png){: width="900" } |
@@ -99,8 +95,6 @@ Knowing how to optimally enter AI prompts is a lot more important than most peop
 The same principles apply to the AI system instructions (shown in the next section).
 
 # **GPT-4 Engines In-Depth Comparison**
-
----
 
 I'm going to focus on the GPT-4.1 series as these models seem to be the leaders in general knowledge base and understanding user intent.
 - GPT-4.1
@@ -152,8 +146,6 @@ It's no surprise that the full 4.1 engine offers the best explanations. I partic
 That being said, I think that the mini engine gets 85% of the way there while costing a fifth of the price and having half as long loading times. As for the nano, its responses were too generic for my use case.
 
 # **Cost Analysis & Optimization Strategies (Rate Limiting, Redis Caching, CAPTCHA)**
-
----
 
 AI agents are priced per 1 million tokens. 1 token equals roughly 3/4 of a word. My input prompt above uses roughly 100 tokens and the outputs also use about 100. 
 

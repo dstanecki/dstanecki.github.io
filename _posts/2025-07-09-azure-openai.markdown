@@ -36,7 +36,7 @@ This setup includes two main components that incur **per-use costs**:
 
 ⚠️ If your app is public-facing, you **must** implement protections (e.g., rate limits, CAPTCHA) to avoid surprise costs, which I talk about later.
 
-## **About Grounding with Bing**
+## About Grounding with Bing
 
 Grounding with Bing addresses the major limitation seen with OpenAI's (ChatGPT) API: not being able to browse the internet. To be clear, the ChatGPT **app** can, but it's just the API that cannot. The API on its own has a knowledge cutoff of roughly 1 year ago, and is not up to date on current topics.
 
@@ -82,13 +82,13 @@ Then select your newly created Grounding with Bing resource.
 
 Knowing how to optimally enter AI prompts is a lot more important than most people realize. Especially when your app is hinging on the AI's ability to scrape the web for up-to-date and comprehensive information. Check out my test in the GPT-4.1-nano playground. At first I was only pulling the ZIP code and forecast % to use in my prompt, which resulted in a generic and inaccurate response:
 
-| ![/assets/genericPrompt](/assets/genericPrompt.png){: width="450" } |
+| ![/assets/genericPrompt](/assets/genericPrompt.png){: width="750" } |
 |:--:| 
 | *Generic prompt* |
 
 60805 is not even in Chicago and the rest of the answer is egregiously bland. So I decided to see what happened if I pulled as many values as possible from my dataset (city name, state, date, metro area, county) and ask the AI for a clear outcome: 2-3 key reasons why the forecast is -0.90%, based on trends **specific to the region**. By giving the AI as much data to go off of as possible, and stating a clear and desired outcome, I got a much better response:
 
-| ![/assets/finetunedPrompt](/assets/finetunedPrompt.png){: width="450" } |
+| ![/assets/finetunedPrompt](/assets/finetunedPrompt.png){: width="750" } |
 |:--:| 
 | *Improved prompt* |
 
@@ -130,7 +130,7 @@ Home values in ZIP code 29702 are forecasted to change by -5.7% from 05-31-2025 
 
 **4.1-nano:** The -5.7% forecasted decline in home values for ZIP code 29702 is driven by slowing manufacturing activity in Cherokee County and a related decline in local employment opportunities. Additionally, limited population growth and increased housing supply are putting downward pressure on home prices in the Blacksburg area.
 
-## **Takeaways from the test results**
+### **Takeaways from the test results**
 
 It's no surprise that the full 4.1 engine offers the best explanations. I particularly like how it mentions the "continued revitalization of downtown Hartford". I also like that it caught the fact that Gaffney metro area home values are falling off despite seeing several new residential developments. These interesting details weren't mentioned by the smaller mini and nano engines.
 
@@ -143,14 +143,15 @@ AI agents are priced per 1 million tokens. 1 token equals roughly 3/4 of a word.
 ![gptPricing.png](/assets/gptPricing.png)
 
 For an avg of 100 input tokens and 100 output tokens, assuming no cache:
+
 **Cost Breakdown per 1,000 requests (includes $35 for Grounding)**
-GPT-4.1: $36
-GPT-4.1-mini: $35.20
-GPT-4.1-nano: $35.04
+- GPT-4.1: $36
+- GPT-4.1-mini: $35.20
+- GPT-4.1-nano: $35.04
 
 Yes you read that right. The AI agent cost is negligible compared to that $35 Grounding tax.
 
-## **Preventing Unwanted Costs**
+## Preventing Unwanted Costs
 
 Maybe your public app gains an unexpected amount of traction. Maybe a malicious actor writes a script to spam API calls and rack up some serious bills. Whatever the case may be, it is of utmost importance to implement prevention measures and maintain excellent observability and alerting practices.
 
@@ -158,7 +159,7 @@ Maybe your public app gains an unexpected amount of traction. Maybe a malicious 
 
 The most important and obvious one. In Azure Portal navigate to Cost Management + Billing > Budgets > Add.
 
-[createBudget](/assets/createBudget.png)
+![createBudget](/assets/createBudget.png)
 
 ### **Azure AI token rate limit**
 
@@ -260,7 +261,7 @@ We can use Redis to both cache AI responses and limit client requests. I'm using
 
 6. Test
 
-[rateLimitExceeded](/assets/rateLimitExceeded.png)
+![rateLimitExceeded](/assets/rateLimitExceeded.png)
 
 You'll also notice in my live demo that duplicate ZIP entries load instantly and are identical.
 
@@ -283,7 +284,7 @@ Another preventative measure I can put in place is a session limit. This means t
 
 Since the session data is stored client-side, it will work across pods without further modification.
 
-[resultLimitReached](/assets/resultLimitReached.png)
+![resultLimitReached](/assets/resultLimitReached.png)
 
 ### **Traefik Middleware**
 

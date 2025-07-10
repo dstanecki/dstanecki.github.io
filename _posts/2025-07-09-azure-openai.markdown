@@ -280,7 +280,7 @@ You'll also notice in my live demo that duplicate ZIP entries load instantly and
 
 Another preventative measure I can put in place is a session limit. This means that if users exceed a certain number of results stored on their client side, they will be required to click my "Clear Results" button (delete session and subsequently be required to reCAPTCHA again). 
 
-    ```python
+```python
     @app.route('/example', methods=['POST'])
     @limiter.limit("6 per minute")
     def example():
@@ -291,7 +291,7 @@ Another preventative measure I can put in place is a session limit. This means t
             if 'results' in session and len(session['results']) >= 10:
                 error = "Result limit reached. Please clear results before submitting more queries."
                 return render_template("index.html", rows=session['results'], error=error, recaptcha_site_key=RECAPTCHA_SITE_KEY)
-    ```
+```
 
 Since the session data is stored client-side, it will work across pods without further modification.
 

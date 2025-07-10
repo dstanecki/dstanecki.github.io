@@ -4,7 +4,7 @@ title:  "A Practical Guide to Azure AI + Bing Grounding in Python: Prompt Tuning
 date:   2025-07-09 00:00:00 -0500
 categories: projects
 ---
-Guide to implement Azure AI agents into your Python app, selecting the right AI model for your use case, finetuning prompts, and optimizing costs with Redis. Includes a full cost analysis section with practical cost mitigation strategies. Live demo: [zhf.danielstanecki.com](https://zhf.danielstanecki.com)<!--break-->
+Guide to implement Azure AI agents into your Python app, selecting the right AI model for your use case, finetuning prompts, and optimizing with Redis. Includes a full cost analysis section with practical cost mitigation strategies. Live demo: [zhf.danielstanecki.com](https://zhf.danielstanecki.com)<!--break-->
 
 ## Table of Contents
 - [Project Overview](#project-overview)
@@ -42,21 +42,21 @@ Grounding with Bing addresses the major limitation seen with OpenAI's (ChatGPT) 
 
 Azure AI agents allow you to use the ChatGPT models as an API and connect them to Bing for up-to-date knowledge.
 
-# **How to Set Up Azure AI + Grounding with Bing**
+# How to Set Up Azure AI + Grounding with Bing
 
 The setup is a bit confusing because you need to create the AI agent in the Azure AI Foundry portal, and then in the separate, normal Azure portal you need to create the  "Grounding" resource (under the "Bing Resource" section https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/bing-grounding). 
 
-### Step 1: Create a Foundry account + project
+#### **Step 1: Create a Foundry account + project**
 
 Navigate to https://ai.azure.com and create an account. On the Overview page, select "Create new" > Azure AI Foundry resource and follow the prompts to create a project. **Not all regions are compatible with AI agents.** I'm using US East 2. 
 
-### Step 2: Create a Model deployment
+#### **Step 2: Create a Model deployment**
 
 Navigate to "Models + endpoints" in the sidebar and Deploy model. Here you have the option to choose the Deployment type (Global Standard, Data Zone Standard, etc.). That's explained in detail [here](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/concepts/deployment-types). Global Standard is pay-as-you-go and has the lowest price per-token so I'm going with that. My app is a live demo with low overall traffic so I don't need to provision throughput in advance. 
 
 **Important:** The default tokens per minute rate limit is 50K (the max). This is where you should calculate how much usage your app will see and set an appropriate limit. In the Python API call, you can pass an argument specifying a token limit. Depending on the engine you plan to use (o4-nano, o4-mini, GPT-4o, etc.), this number will vary, but for short paragraph responses in GPT-4o, 300 tokens is a generous allocation. If I have 2 users each triggering a request 6x/min and consuming 300 tokens per request, that's 4,000 tokens per minute and I reckon that's enough for my use case. More on this later. 
 
-### Step 3: Open in Playground
+#### **Step 3: Open in Playground**
 
 Select Open in Playground: 
 
@@ -64,13 +64,13 @@ Select Open in Playground:
 
 This will also generate an agent automatically. 
 
-### Step 4: Create Grounding with Bing resource
+#### **Step 4: Create Grounding with Bing resource**
 
 Navigate to the regular portal.azure.com > Bing Resources and add a Grounding with Bing Search:
 
 ![createGrounding.png](/assets/createGrounding.png)
 
-### Step 5: Create the Knowledge Connection
+#### **Step 5: Create the Knowledge Connection**
 
 Back in ai.azure.com, navigate to Agents in the left sidebar and add a Knowledge connection:
 
@@ -78,23 +78,23 @@ Back in ai.azure.com, navigate to Agents in the left sidebar and add a Knowledge
 
 Then select your newly created Grounding with Bing resource. 
 
-# **How to Finetune AI Prompts**
+# How to Finetune AI Prompts
 
 Knowing how to optimally enter AI prompts is a lot more important than most people realize. Especially when your app is hinging on the AI's ability to scrape the web for up-to-date and comprehensive information. Check out my test in the GPT-4.1-nano playground. At first I was only pulling the ZIP code and forecast % to use in my prompt, which resulted in a generic and inaccurate response:
 
-| ![/assets/genericPrompt](/assets/genericPrompt.png){: width="900" } |
+| ![/assets/genericPrompt](/assets/genericPrompt.png) |
 |:--:| 
 | *Generic prompt* |
 
 60805 is not even in Chicago and the rest of the answer is egregiously bland. So I decided to see what happened if I pulled as many values as possible from my dataset (city name, state, date, metro area, county) and ask the AI for a clear outcome: 2-3 key reasons why the forecast is -0.90%, based on trends **specific to the region**. By giving the AI as much data to go off of as possible, and stating a clear and desired outcome, I got a much better response:
 
-| ![/assets/finetunedPrompt](/assets/finetunedPrompt.png){: width="900" } |
+| ![/assets/finetunedPrompt](/assets/finetunedPrompt.png) |
 |:--:| 
 | *Improved prompt* |
 
 The same principles apply to the AI system instructions (shown in the next section).
 
-# **GPT-4 Engines In-Depth Comparison**
+# GPT-4 Engines In-Depth Comparison
 
 I'm going to focus on the GPT-4.1 series as these models seem to be the leaders in general knowledge base and understanding user intent.
 - GPT-4.1
@@ -123,7 +123,7 @@ in Cherokee County. In a short paragraph, give a concise explanation (2–3 key 
 why this change is expected, based on local housing or economic trends specific to this region.
 ```
 
-### **Prompt 1 responses**
+### Prompt 1 responses
 
 **GPT-4.1:** Home values in ZIP code 06103 are projected to rise by 3.4% due to continued revitalization of downtown Hartford, which has attracted new employers and residents, boosting demand for centrally located housing. Additionally, limited new construction and a relatively low housing inventory in the city core are sustaining upward pressure on prices despite broader metro area affordability concerns.
 
@@ -131,7 +131,7 @@ why this change is expected, based on local housing or economic trends specific 
 
 **4.1-nano:** The forecasted 3.4% increase in home values in ZIP code 06103 is driven by steady demand from Connecticut’s government and healthcare sectors, which dominate the local economy. Additionally, limited new housing development and constrained inventory in Hartford support upward pressure on property prices.
 
-### **Prompt 2 responses**
+### Prompt 2 responses
 
 **GPT-4.1:** Home values in ZIP code 29702 (Blacksburg, SC) are forecasted to decline by -5.7% over the next year, largely due to sluggish local job growth and an increase in housing inventory. The Gaffney metro area has seen several new residential developments, which, combined with slower population growth and limited in-migration, has led to more homes on the market than buyers. Additionally, regional manufacturing layoffs have dampened buyer demand, putting further downward pressure on home prices.
 
@@ -139,13 +139,13 @@ why this change is expected, based on local housing or economic trends specific 
 
 **4.1-nano:** The -5.7% forecasted decline in home values for ZIP code 29702 is driven by slowing manufacturing activity in Cherokee County and a related decline in local employment opportunities. Additionally, limited population growth and increased housing supply are putting downward pressure on home prices in the Blacksburg area.
 
-### **Takeaways from the test results**
+### Takeaways from the test results
 
 It's no surprise that the full 4.1 engine offers the best explanations. I particularly like how it mentions the "continued revitalization of downtown Hartford". I also like that it caught the fact that Gaffney metro area home values are falling off despite seeing several new residential developments. These interesting details weren't mentioned by the smaller mini and nano engines.
 
 That being said, I think that the mini engine gets 85% of the way there while costing a fifth of the price and having half as long loading times. As for the nano, its responses were too generic for my use case.
 
-# **Cost Analysis & Optimization Strategies (Rate Limiting, Redis Caching, CAPTCHA)**
+# Cost Analysis & Optimization Strategies (Rate Limiting, Redis Caching, CAPTCHA)
 
 AI agents are priced per 1 million tokens. 1 token equals roughly 3/4 of a word. My input prompt above uses roughly 100 tokens and the outputs also use about 100. 
 
@@ -164,7 +164,7 @@ Yes you read that right. The AI agent cost is negligible compared to that $35 Gr
 
 Maybe your public app gains an unexpected amount of traction. Maybe a malicious actor writes a script to spam API calls and rack up some serious bills. Whatever the case may be, it is of utmost importance to implement prevention measures and maintain excellent observability and alerting practices.
 
-### **Azure Budget alerts**
+### *Azure Budget alerts**
 
 The most important and obvious one. In Azure Portal navigate to Cost Management + Billing > Budgets > Add.
 

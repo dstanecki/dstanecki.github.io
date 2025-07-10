@@ -222,7 +222,7 @@ We can use Redis to both cache AI responses and limit client requests. I'm using
                   name: my-redis
                   key: redis-password
             - name: REDIS_HOST
-              value: my-redis-master.{{ .Release.Namespace }}.svc.cluster.local # replace Namespace if not using Helm
+              value: my-redis-master.namespace.svc.cluster.local # replace 'namespace' with yours
             - name: REDIS_PORT
               value: "6379"
     ```

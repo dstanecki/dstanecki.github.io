@@ -17,7 +17,7 @@ Guide to implement Azure AI agents into your Python app, selecting the right AI 
 - [Cost Analysis](#cost-analysis)
 - [Cost Optimization Strategies (Rate Limiting, Redis Caching, CAPTCHA)](#cost-optimization-strategies-rate-limiting-redis-caching-captcha)
 
-# Project Overview
+# Project & Cost Overview
 
 This post is intended for **full stack engineers** who are interested in leveraging **Azure OpenAI** with live web data using **Bing Grounding**, plus managing costs, caching with Redis, and prompt tuning. I'm using a Python Flask application hosted on a multi-node Kubernetes cluster.
 
@@ -26,8 +26,6 @@ GitHub repo: [https://github.com/dstanecki/zillow-housing-forecast](https://gith
 **Prerequisites:**
 - Existing Python app
 - Azure account
-
-# Cost Overview (Important)
 
 This setup includes two main components that incur **per-use costs**:
 

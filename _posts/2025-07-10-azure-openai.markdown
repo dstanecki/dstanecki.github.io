@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "A Practical Guide to Azure AI + Bing Grounding in Python: Prompt Tuning, Cost Control, and Redis Caching"
-date:   2025-07-09 00:00:00 -0500
+date:   2025-07-10 00:00:00 -0500
 categories: projects
 ---
 Guide to implement Azure AI agents into your Python app, selecting the right AI model for your use case, finetuning prompts, and optimizing with Redis. Includes a full cost analysis section with practical cost mitigation strategies. Live demo: [zhf.danielstanecki.com](https://zhf.danielstanecki.com)<!--break-->

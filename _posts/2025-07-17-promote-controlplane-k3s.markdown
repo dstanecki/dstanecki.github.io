@@ -13,7 +13,7 @@ I was running my cluster on 2 Raspberry Pi's with MicroSD cards. For those unawa
 
 To avoid this, I decided to add a new SSD-backed node to serve as my control plane. As a result, I'm less worred about my SD cards giving out because it's a lot easier to remediate a broken worker node than a control plane node. 
 
-### ✅ Requirements
+### Requirements
 
 - Existing K3s cluster using the default **embedded SQLite** datastore
 
@@ -136,5 +136,8 @@ On each worker node:
 ### Other
 
 - Reinstall helm
-- Reinstall docker 
+- Reinstall docker
+- Reinstall argoCD CLI 
 - Take care to clean up old PVCs 
+- Update your firewall (ufw or other)
+- Uninstall and reinstall Traefik ingress controller (resolved a bunch of conflicts with RBAC that the backup & restore seemed to have caused)

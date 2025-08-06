@@ -15,6 +15,7 @@ I created a fully automated disaster recovery solution for my Kubernetes homelab
 - [GKE Deployment Pipeline](#gke-deployment-pipeline)
 - [Terraform Code for Cluster (Infra)](#cluster-infra-terraform)
 - [Terraform Code for Workloads](#workloads-terraform)
+- [Terraform Destroy Pipeline](#terraform-destroy-pipeline)
 - [Final Outcome](#final-outcome)
 
 ### Prerequisites

@@ -22,6 +22,7 @@ I created a fully automated disaster recovery solution for my Kubernetes homelab
 - Terraform
 - GitHub Actions
 - GCP service account (needed for Terraform assign a k8s ClusterRole to)
+- ArgoCD app
 
 # Architecture 
 
@@ -473,91 +474,7 @@ resource "kubernetes_secret" "db_password_prod" {
   }
 
   type = "Opaque"
-}
-resource "kubernetes_secret" "redis_password_dev" {
-  metadata {
-    name      = "redis-password"
-    namespace = "dev"
-  }
-
-  data = {
-    redis-password = var.redis_password
-  }
-
-  type = "Opaque"
-}
-resource "kubernetes_secret" "redis_password_prod" {
-  metadata {
-    name      = "redis-password"
-    namespace = "prod"
-  }
-
-  data = {
-    redis-password = var.redis_password
-  }
-
-  type = "Opaque"
-}
-resource "kubernetes_secret" "azure_ai_openapi_key_prod" {
-  metadata {
-    name      = "azure-ai-openapi-key"
-    namespace = "prod"
-  }
-
-  data = {
-    SUBSCRIPTION_KEY = var.azure_ai_openapi_key
-  }
-
-  type = "Opaque"
-}
-resource "kubernetes_secret" "azure_ai_openapi_key_dev" {
-  metadata {
-    name      = "azure-ai-openapi-key"
-    namespace = "dev"
-  }
-
-  data = {
-    SUBSCRIPTION_KEY = var.azure_ai_openapi_key
-  }
-
-  type = "Opaque"
-}
-resource "kubernetes_secret" "recaptcha_secret_key_prod" {
-  metadata {
-    name      = "recaptcha-secret-key"
-    namespace = "prod"
-  }
-
-  data = {
-    RECAPTCHA_SECRET_KEY = var.recaptcha_secret_key_prod
-  }
-
-  type = "Opaque"
-}
-resource "kubernetes_secret" "recaptcha_secret_key_dev" {
-  metadata {
-    name      = "recaptcha-secret-key"
-    namespace = "dev"
-  }
-
-  data = {
-    RECAPTCHA_SECRET_KEY = var.recaptcha_secret_key_dev
-  }
-
-  type = "Opaque"
-}
-resource "kubernetes_secret" "cloudflare_api_token_secret" {
-  metadata {
-    name      = "cloudflare-api-token-secret"
-    namespace = "cert-manager"
-  }
-
-  data = {
-    api-token = var.cloudflare_api_token_secret
-  }
-
-  type = "Opaque"
-}
+} # ...
 
 # Install app of apps
 resource "kubernetes_manifest" "app_of_apps" {

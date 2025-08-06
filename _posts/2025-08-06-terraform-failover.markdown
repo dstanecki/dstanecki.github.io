@@ -45,10 +45,11 @@ I haven't been impressed with GCP's resource availability compared to AWS, havin
 
 GKE offers a free tier for your **first** cluster, meaning you still have to pay for the VMs but you do not pay a cluster management fee ($0.10/hr). Knowing this, I'm opting to stick with a **single zone** cluster using **two nodes**. If I were running any production critical workloads, I would use a regionally available cluster shown in Option 2 in the table:
 
-| Option | Description                                    | Nodes | Cluster Type | VM Type     | Est. VM Cost (Total) | GKE Cluster Fee       | **Monthly Cost** | **Daily Cost** |
-|--------|------------------------------------------------|-------|---------------|-------------|-----------------------|------------------------|------------------|----------------|
-| 1      | 2× `e2-standard-2` nodes in single zone        | 2     | Zonal         | Regular     | ~$73 × 2 = **$146**   | Free (1st zonal cluster) | **~$146**        | **~$4.87**     |
-| 2      | 3× `e2-standard-2` nodes across 3 zones        | 3     | Regional      | Regular     | ~$73 × 3 = **$219**   | ~$73 (regional fee)     | **~$292**        | **~$9.73**     |
+| Cluster Type | Description                                    | Nodes | Est. VM Cost (Total) | GKE Cluster Fee           | **Monthly Cost** | **Daily Cost** |
+|--------------|------------------------------------------------|-------|-----------------------|----------------------------|------------------|----------------|
+| Zonal        | 2× `e2-standard-2` nodes in single zone        | 2     | ~$73 × 2 = **$146**   | Free (1st zonal cluster)   | **~$146**        | **~$4.87**     |
+| Regional     | 3× `e2-standard-2` nodes across 3 zones        | 3     | ~$73 × 3 = **$219**   | ~$73 (regional fee)        | **~$292**        | **~$9.73**     |
+
 
 Currently, my workloads need at least 16GB of RAM which I what I have in my home lab. I'm using autoscaling with a minimum of 2 e2-standard-2 VMs to match that figure. 
 
@@ -127,6 +128,7 @@ The pipeline code has 4 main components.
 3. Run workloads Terraform plan
 4. Modify DNS record
 
+{% raw %}
 ```yaml
 name: Terraform GKE Deployment
 
@@ -210,11 +212,13 @@ jobs:
           ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
           DNS_RECORD_ID: ${{ secrets.DNS_RECORD_ID }}
 ```
+{% endraw %}
 
 # Cluster (Infra) Terraform
 
 Here I deploy the providers, GKE cluster, namespaces, and infra-related Helm charts. The values for argoCD Helm and cert-manager Helm must specify .crds.keep=false to ensure a smooth Terraform destroy.
 
+{% raw %}
 ```yaml
 provider "google" {
   project = var.project_id
@@ -385,11 +389,13 @@ resource "kubernetes_namespace" "prod" {
   }
 }
 ```
+{% endraw %}
 
 # Workloads Terraform 
 
 Sets up GCP service account privileges for k8s, which is necessary even if it has admin permissions at the GCP level. Set up secrets from ENV vars. Deploy ArgoCD app-of-apps (also manages infra apps that were installed by the cluster terraform code).
 
+{% raw %}
 ```yaml
 provider "google" {
   project = var.project_id
@@ -586,11 +592,13 @@ resource "kubernetes_manifest" "app_of_apps" {
   }
 }
 ```
+{% endraw %}
 
 # Terraform Destroy Pipeline
 
 Deletes all CRDs, certain finalizers that prevent deletion, terraform state components that prevent deletion, and sets the DNS record back to homelab cluster. 
 
+{% raw %}
 ```yaml
 name: Terraform Destroy
 
@@ -703,6 +711,7 @@ jobs:
           ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
           DNS_RECORD_ID: ${{ secrets.DNS_RECORD_ID }}
 ```
+{% endraw %}
 
 # Final Outcome
 

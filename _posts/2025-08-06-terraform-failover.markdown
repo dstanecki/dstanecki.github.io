@@ -4,7 +4,7 @@ title:  "Automated Failover to GKE with Terraform, CI/CD, and ArgoCD"
 date:   2025-08-06 00:00:00 -0500
 categories: projects
 ---
-I created a fully automated disaster recovery solution for my Kubernetes homelab using CI/CD, Terraform, GKE, and ArgoCD. It adds a safety net in case I lose power, WiFi, or need to perform physical maintenance on my Raspberry Pis. I host live demos on my cluster so this solution allows me to maximize uptime.<!--break-->
+I created a fully automated disaster recovery solution for my Kubernetes homelab using CI/CD, Terraform, Google Kubernetes Engine (GKE), and ArgoCD. It adds a safety net in case I lose power, WiFi, or need to perform physical maintenance on my Raspberry Pis. I host live demos on my cluster so this solution allows me to maximize uptime.<!--break-->
 
 ## Table of Contents
 
@@ -35,7 +35,7 @@ A health check job pings an HTTP endpoint in my cluster's app every 5 minutes an
 
 I opted to divide my Terraform code into two main.tf files - one for the infrastructure and required packages (e.g. infra helm charts) and one for the workloads (ArgoCD apps, etc.). Since I would be seldom changing the infrastructure, this structure let me separate workloads from infra more coherently. Also, it ensured that the cluster was ready before the workloads tried to access its API. In my early stages of testing I needed to use a wait condition, but this method let me do away with that.
 
-I'm using Standard GKE instead of Autopilot since I want to keep things as consistent with my on-prem cluster as possible. The primary factor being that Autopilot has its own Google-managed ingress configured and I want to keep using Traefik. 
+I chose GKE because it has a good free tier and seems to have more features than AWS and Azure's offerings. I also want to familiarize myself with GCP in general because the bulk of my infrastructure experience has been with AWS. I'm using Standard GKE instead of Autopilot since I want to keep things as consistent with my on-prem cluster as possible. The primary factor being that Autopilot has its own Google-managed ingress configured and I want to keep using Traefik. 
 
 | ![disaster_recovery.drawio.png](/assets/disaster_recovery.drawio.png) |
 |:--:| 

@@ -13,8 +13,8 @@ I created a fully automated disaster recovery solution for my Kubernetes homelab
 - [Cost Breakdown](#cost-breakdown)
 - [HTTP Health Check Pipeline](#http-health-check-pipeline)
 - [GKE Deployment Pipeline](#gke-deployment-pipeline)
-- [Cluster (Infra) Terraform](#cluster-infra-terraform)
-- [Workloads Terraform](#workloads-terraform)
+- [Terraform Code for Cluster (Infra)](#cluster-infra-terraform)
+- [Terraform Code for Workloads](#workloads-terraform)
 - [Final Outcome](#final-outcome)
 
 ### Prerequisites

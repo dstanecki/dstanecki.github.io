@@ -60,6 +60,7 @@ I opted to use GitHub Actions for CI/CD since I can use their worker agents for 
 
 The health checks are done with curling my /ready endpoint defined in my Python app and consecutive failures are cached in a hidden .cache directory. In the last step, I trigger the deployment pipeline using a POST call to github API if the fail count reaches 3.
 
+{% raw %}
 ```yaml
 name: Ping Endpoint
 
@@ -120,6 +121,7 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             -d '{"event_type": "trigger-fallback"}'
 ```
+{% endraw %}
 
 # GKE Deployment Pipeline
 

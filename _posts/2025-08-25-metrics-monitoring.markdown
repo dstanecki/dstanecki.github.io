@@ -11,12 +11,13 @@ My app is self-hosted on Kubernetes, uses Traefik for a proxy/ingress controller
 
 ## White-box vs Black-box monitoring
 White-box = internal metrics 
+
 Black-box = externally visible behavior as a user would see it
 
 White-box monitoring normally accounts for the majority of metrics because it can be leveraged to proactively predict problems occurring, whereas black-box monitoring is solely reactive. 
 
 ## Four Golden Signals
-From https://sre.google/sre-book/monitoring-distributed-systems/
+From [https://sre.google/sre-book/monitoring-distributed-systems/](https://sre.google/sre-book/monitoring-distributed-systems/)
 
 The most important metrics for a user-facing system:
 - Latency 
@@ -27,7 +28,7 @@ The most important metrics for a user-facing system:
 ## Black-box (external) uptime and latency
 I'm using Upptime which uses CI/CD to ping an HTTP /ready path and measure its latency. It's scheduled to run every 5 minutes which is the maximum frequency allowed by GitHub Actions free runners. Because of this, Upptime is not ideal for real production monitoring but it suits my current use case.
 
-My uptime dashboard: https://www.danielstanecki.com/zhf-upptime/ 
+My uptime dashboard: [https://www.danielstanecki.com/zhf-upptime/](https://www.danielstanecki.com/zhf-upptime/)
 
 ## White-box (internal) uptime and latency
 I'm measuring the 95th percentile of all Traefik entrypoint latency, which reveals what the slowest 5% of requests look like. This method often reveals issues more clearly than just the flat average.
@@ -53,12 +54,15 @@ sum(rate(traefik_entrypoint_requests_total[1m]))
 
 I am alerting for unusual traffic spikes or dips. A spike might indicate a malicious actor or simply unexpected traffic, in which case I would have to check that latency is not suffering. A huge dip would indicate a problem too since my app is supposed to be always receiving traffic from health checks at least.
 
-## Errors: HTTP Status Codes
+## Errors 
+
+#### HTTP Status Codes
+
 I'm alerting for any 5xx code. My app hasn't seen any yet since I deployed it a few months ago, so any occurrence would be unusual. 
 
 In my application logic I also configured a 429 rate limiting code that's returned when a user spams queries, so I'm alerting for that too. 
 
-## Errors: Kubernetes
+#### Kubernetes
 
 I'm monitoring the node readiness ratio and alerting if it is not 1. Next most important is the pod container restarts which I'm still deciding on how to alert for. I think any ImagePullBackOff errors warrant an automatic alert and any repeated OOMKilled errors.
 

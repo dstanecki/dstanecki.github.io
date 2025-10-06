@@ -1,0 +1,211 @@
+---
+layout: post
+title:  "How to configure Grafana Alloy and Loki for Logging"
+date: 2025-10-06 00:00:00 -0500  
+categories: projects
+---
+Grafana Alloy is an open source OpenTelemetry Collector distribution with built-in Prometheus pipelines and support for metrics, logs, traces, and profiles. Loki is a horizontally-scalable, highly-available, multi-tenant log aggregation system inspired by Prometheus.<!--break-->
+
+## Overview 
+How to configure Alloy and Loki to collect and visualize container logs in Grafana.
+
+## Prerequisites
+- Helm 
+- Grafana
+- Pod(s) with logs
+
+### Alloy Industry Parallels
+Similar to 
+- OTel Collector
+- Fluent Bit
+- Promtail
+- Vector (Datadog)
+
+### Loki Industry Parallels
+Similar to 
+- Elasticsearch / ELK stack
+- Splunk
+- Sumo Logic
+- Datadog Logs
+- Graylog
+
+## Steps 
+
+1. Install Loki with Helm
+These are the values I'm using to start off with:
+```yaml
+deploymentMode: SingleBinary # Smallest option, designed only for up to 10GB/day
+
+singleBinary:
+  replicas: 1
+  autoscaling:
+    enabled: false
+  persistence: 
+    size: 30Gi
+
+loki:
+  readinessProbe: # Default readiness probe
+    httpGet:
+      path: /ready
+      port: http-metrics
+    initialDelaySeconds: 30
+    timeoutSeconds: 1
+
+  server: # Default ports and timeout
+    http_listen_port: 3100
+    grpc_listen_port: 9095
+    http_server_read_timeout: 600s
+    http_server_write_timeout: 600s
+
+  auth_enabled: false
+
+  # TSDB with local filesystem
+  schemaConfig:
+    configs:
+      - from: "2025-01-01"
+        store: tsdb
+        object_store: filesystem
+        schema: v13
+        index:
+          prefix: loki_index_
+          period: 24h
+  commonConfig:
+    replication_factor: 1
+
+  # Storage backend: filesystem (in-pod)
+  storage:
+    type: filesystem
+    filesystem:
+      chunks_directory: /var/loki/chunks
+      rules_directory: /var/loki/rules
+
+# Enabled by default, keep the gateway (NGINX pod) so Alloy/Grafana can talk to http://loki-gateway
+gateway:
+  enabled: true
+
+# Specifies whether memcached cache should be enabled
+chunksCache:
+  enabled: false
+resultsCache:
+  enabled: false
+```
+
+2. Create config.alloy 
+By using a ConfigMap and enabling configmap reload in Alloy values.yaml, the configuration for Alloy can stay malleable. 
+NOTE: Make sure the loki.write endpoint string contains the same namespace that Loki was deployed to. 
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alloy-config
+  namespace: monitoring
+data:
+  config.alloy: |-
+    discovery.kubernetes "pods" {
+      role = "pod"
+    }
+
+    loki.source.kubernetes "pods" {
+      targets    = discovery.kubernetes.pods.targets
+      forward_to = [loki.write.local.receiver]
+    }
+
+    loki.write "local" {
+      endpoint { url = "http://loki-gateway.{NAMESPACE}.svc.cluster.local/loki/api/v1/push" }
+    }
+```
+
+3. Install Alloy with Helm 
+
+```yaml
+# Minimal values for: DaemonSet, use existing ConfigMap, collect node logs, no Service.
+controller:
+  type: daemonset # Choose from daemonset, deployment, or statefulset. The daemonset type is best suited for collecting container log files
+  minReadySeconds: 10 # Default value
+
+alloy:
+  # Use the config from config.alloy
+  configMap:
+    create: false # Because we created it in the last step
+    name: alloy-config
+    key: config.alloy 
+
+  # Keep defaults, UI port on for quick port-forwarding (no Service exposed).
+  enableHttpServerPort: true
+  listenAddr: 0.0.0.0
+  listenPort: 12345
+  listenScheme: HTTP
+  uiPathPrefix: /
+
+  # Common host mounts for log collection
+  mounts:
+    # Mounts /var/log from the host into the container for log collection
+    # Reading /var/log requires a hostPath mount and elevated permissions, and should not be used in high security contexts
+    varlog: true
+    dockercontainers: false
+
+  # Light resources
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
+  enableReporting: false
+
+# Use upstream image & defaults
+image:
+  repository: grafana/alloy
+  pullPolicy: IfNotPresent
+
+# Create rbac and serviceaccount if you aren't doing it manually
+rbac:
+  create: true
+
+serviceAccount:
+  create: true
+  automountServiceAccountToken: true
+
+# Auto-reload on ConfigMap changes
+configReloader:
+  enabled: true
+
+service:
+  enabled: false
+
+networkPolicy:
+  enabled: false # default
+
+# CRDs not needed unless you rely on them explicitly
+crds:
+  create: false
+```
+
+4. Now you can access the Grafana UI and create a dashboard from the Loki datasource. By using regex like this:
+```
+{instance=~"^prod/app-prod.*"} != `ready` or `metrics`
+```
+I'm collecting app logs that excludes logs from my readiness probe and metrics.
+
+| ![alloy_loki.png](/assets/alloy_loki.png) |
+|:--:| 
+| *Visualized logs from all of my app pods* |
+
+5. Fix for the error commonly seen with Alloy or other Collectors: "failed to create fsnotify watcher: too many open files"
+
+```bash
+# good starting points
+sudo sysctl -w fs.inotify.max_user_watches=1048576      # 1,048,576
+sudo sysctl -w fs.inotify.max_user_instances=4096
+sudo sysctl -w fs.inotify.max_queued_events=131072
+
+# make persistent
+cat <<'EOF' | sudo tee /etc/sysctl.d/99-inotify.conf
+fs.inotify.max_user_watches=1048576
+fs.inotify.max_user_instances=4096
+fs.inotify.max_queued_events=131072
+EOF
+sudo sysctl --system
+```

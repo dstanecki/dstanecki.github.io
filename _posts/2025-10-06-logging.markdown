@@ -32,8 +32,9 @@ Similar to
 ## Steps 
 
 1. Install Loki with Helm
-These are the values I'm using to start off with:
+
 ```yaml
+# values.yaml
 deploymentMode: SingleBinary # Smallest option, designed only for up to 10GB/day
 
 singleBinary:
@@ -91,8 +92,10 @@ resultsCache:
 ```
 
 2. Create config.alloy 
+
 By using a ConfigMap and enabling configmap reload in Alloy values.yaml, the configuration for Alloy can stay malleable. 
 NOTE: Make sure the loki.write endpoint string contains the same namespace that Loki was deployed to. 
+
 ```yaml
 apiVersion: v1
 kind: ConfigMap
@@ -184,6 +187,7 @@ crds:
 ```
 
 4. Now you can access the Grafana UI and create a dashboard from the Loki datasource. By using regex like this:
+
 ```
 {instance=~"^prod/app-prod.*"} != `ready` or `metrics`
 ```

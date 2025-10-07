@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "How to configure Grafana Alloy and Loki for Logging"
+title:  "How to Configure Grafana Alloy+Loki to Collect Pod Logs"
 date: 2025-10-06 00:00:00 -0500  
 categories: projects
 ---
@@ -29,9 +29,7 @@ Similar to
 - Datadog Logs
 - Graylog
 
-## Steps 
-
-1. Install Loki with Helm
+## Step 1: Install Loki with Helm
 
 ```yaml
 # values.yaml
@@ -91,7 +89,7 @@ resultsCache:
   enabled: false
 ```
 
-2. Create config.alloy 
+## Step 2: Create config.alloy 
 
 By using a ConfigMap and enabling configmap reload in Alloy values.yaml, the configuration for Alloy can stay malleable. 
 NOTE: Make sure the loki.write endpoint string contains the same namespace that Loki was deployed to. 
@@ -118,7 +116,7 @@ data:
     }
 ```
 
-3. Install Alloy with Helm 
+## Step 3: Install Alloy with Helm 
 
 ```yaml
 # Minimal values for: DaemonSet, use existing ConfigMap, collect node logs, no Service.
@@ -186,7 +184,9 @@ crds:
   create: false
 ```
 
-4. Now you can access the Grafana UI and create a dashboard from the Loki datasource. By using regex like this:
+## Step 4: Now you can access the Grafana UI and create a dashboard from the Loki datasource. 
+
+By using regex like this:
 
 ```
 {instance=~"^prod/app-prod.*"} != `ready` or `metrics`
@@ -197,7 +197,7 @@ I'm collecting app logs that excludes logs from my readiness probe and metrics.
 |:--:| 
 | *Visualized logs from all of my app pods* |
 
-5. Fix for the error commonly seen with Alloy or other Collectors: "failed to create fsnotify watcher: too many open files"
+## Step 5: Fix for the error commonly seen with Alloy or other Collectors: "failed to create fsnotify watcher: too many open files"
 
 ```bash
 # good starting points
